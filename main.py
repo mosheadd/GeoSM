@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, make_response
 
 from flask_login import LoginManager
 
@@ -8,6 +8,11 @@ app.config['SECRET KEY'] = 'mosheadd176440'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+@app.route('/')
+def main_page():
+    return make_response('Здесь ничего не происходит.')
 
 
 def main():
