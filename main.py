@@ -15,6 +15,9 @@ def main_page():
     return make_response('Здесь ничего не происходит.')
 
 
+
+
+
 def main():
     app.run()
 
