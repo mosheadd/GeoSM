@@ -1,4 +1,6 @@
 from flask import Flask, make_response, render_template
+from databases.site_news import SiteNews
+from databases import db_session
 
 from flask_login import LoginManager, current_user
 
@@ -12,10 +14,13 @@ login_manager.init_app(app)
 
 @app.route('/')
 def main_page():
-    return render_template('main_page_not_signed_in.html')
+    db_sess = db_session.create_session()
+    all_news = db_sess.query(SiteNews)
+    return render_template('main_page_not_signed_in.html', sitenews=all_news)
 
 
 def main():
+    db_session.global_init("databases/sitenews.db")
     app.run()
 
 
