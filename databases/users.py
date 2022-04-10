@@ -13,6 +13,7 @@ class User(SqlAlchemyBase, UserMixin):
     about = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     login = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    is_site_admin = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
