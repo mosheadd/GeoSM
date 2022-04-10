@@ -8,21 +8,17 @@
 </head>
 <body>
 <header>
-      <nav class="navbar navbar-light bg-light">
-        {% if current_user.is_authenticated %}
-    <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
-{% else %}
+      <nav>
     <p>
-        <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
-        <a class="btn btn-success" href="/login">Войти</a>
+        <a class="signin">Зарегистрироваться</a>
     </p>
 {% endif %}
       </nav>
     </header>
-<main role="main" class="container">
+<main role="main">
         <h1>Новости сайта</h1>
 {% for item in sitenews%}
-<div class="col-md6 border rounded">
+<div>
     <h2>{{item.title}}</h2>
     <div>
         {{item.quickdescription}}
