@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="C:\Users\rost1\OneDrive\Документы\GitHub\GeoSM\CssFiles\main.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <title>Title</title>
 </head>
 <body>
 <header>
       <nav>
     <p>
-        <a class="signin">Зарегистрироваться</a>
+        <a class="signup" href="/register">Зарегистрироваться</a>
+        <a class="signin" href="/signin">Войти</a>
     </p>
-{% endif %}
       </nav>
     </header>
 <main role="main">
