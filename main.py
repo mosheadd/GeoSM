@@ -1,5 +1,6 @@
 from flask import Flask, make_response, render_template
 from databases.site_news import SiteNews
+from databases.users import User
 from databases import db_session
 
 from flask_login import LoginManager, current_user
@@ -10,6 +11,12 @@ app.config['SECRET KEY'] = 'mosheadd176440'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
 
 
 @app.route('/')
