@@ -1,6 +1,6 @@
-from flask import Flask, make_response
+from flask import Flask, make_response, render_template
 
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 
 app = Flask(__name__)
@@ -12,10 +12,7 @@ login_manager.init_app(app)
 
 @app.route('/')
 def main_page():
-    return make_response('Здесь ничего не происходит.')
-
-
-
+    return render_template('main_page_not_signed_in.html')
 
 
 def main():
