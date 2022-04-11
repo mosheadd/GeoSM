@@ -1,16 +1,26 @@
 from flask import Flask, make_response, render_template
+from flask_wtf import FlaskForm
 from databases.site_news import SiteNews
 from databases.users import User
 from databases import db_session
+from wtforms import PasswordField, BooleanField, SubmitField, StringField
+from wtforms.validators import DataRequired
 
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager, current_user, login_user
 
 
 app = Flask(__name__)
-app.config['SECRET KEY'] = 'mosheadd176440'
+app.config['SECRET_KEY'] = 'secret_kkkey'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+class RegisterForm(FlaskForm):
+    name = StringField('Имя', validators=[DataRequired()])
+    login = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    submit = SubmitField('Войти')
 
 
 @login_manager.user_loader
@@ -24,6 +34,15 @@ def main_page():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
     return render_template('main_page_not_signed_in.html', sitenews=all_news)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User)
+    return render_template('signing_up.html', form=form)
 
 
 def main():
