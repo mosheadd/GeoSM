@@ -1,4 +1,4 @@
-from flask import Flask, make_response, render_template
+from flask import Flask, make_response, render_template, redirect
 from flask_wtf import FlaskForm
 from databases.site_news import SiteNews
 from databases.users import User
@@ -23,6 +23,12 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Войти')
 
 
+class SignInForm(FlaskForm):
+    login = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    submit = SubmitField('Войти')
+
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
@@ -36,12 +42,47 @@ def main_page():
     return render_template('main_page_not_signed_in.html', sitenews=all_news)
 
 
+@app.route('/si')
+def main_page_si():
+    db_sess = db_session.create_session()
+    all_news = db_sess.query(SiteNews)
+    return render_template('main_page_signed_in.html', sitenews=all_news)
+
+
+@app.route('/sign_in', methods=['GET', 'POST'])
+def sign_in():
+    form = SignInForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.login == form.login.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user)
+            return redirect("/")
+    return render_template('signing_in.html', form=form)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user = db_sess.query(User)
+        if db_sess.query(User).filter(User.name == form.name.data).first()\
+                and db_sess.query(User).filter(User.login == form.login.data).first():
+            return render_template('signing_up.html', form=form, message="Такой пользователь уже есть.")
+        if db_sess.query(User).filter(User.name == form.name.data).first():
+            return render_template('signing_up.html', form=form, message="Пользователь с таким именем уже есть.")
+        if db_sess.query(User).filter(User.login == form.login.data).first():
+            return render_template('signing_up.html', form=form, message="Пользователь с таким логином уже есть.")
+        user = User(
+            name=form.name.data,
+            login=form.login.data,
+            password=form.password.data
+        )
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect('/si')
     return render_template('signing_up.html', form=form)
 
 
