@@ -57,7 +57,7 @@ def sign_in():
         user = db_sess.query(User).filter(User.login == form.login.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect("/")
+            return redirect("/si")
     return render_template('signing_in.html', form=form)
 
 
@@ -67,8 +67,7 @@ def register():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         user = db_sess.query(User)
-        if db_sess.query(User).filter(User.name == form.name.data).first()\
-                and db_sess.query(User).filter(User.login == form.login.data).first():
+        if db_sess.query(User).filter(User.name == form.name.data).first() and db_sess.query(User).filter(User.login == form.login.data).first():
             return render_template('signing_up.html', form=form, message="Такой пользователь уже есть.")
         if db_sess.query(User).filter(User.name == form.name.data).first():
             return render_template('signing_up.html', form=form, message="Пользователь с таким именем уже есть.")
@@ -79,7 +78,6 @@ def register():
             login=form.login.data,
             password=form.password.data
         )
-        user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
         return redirect('/si')
