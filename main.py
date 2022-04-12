@@ -6,7 +6,7 @@ from databases import db_session
 from wtforms import PasswordField, BooleanField, SubmitField, StringField
 from wtforms.validators import DataRequired
 
-from flask_login import LoginManager, current_user, login_user
+from flask_login import LoginManager, current_user, login_user, logout_user
 
 
 app = Flask(__name__)
@@ -60,7 +60,6 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        user = db_sess.query(User)
         if db_sess.query(User).filter(User.name == form.name.data).first() and db_sess.query(User).filter(User.login == form.login.data).first():
             return render_template('signing_up.html', form=form, message="Такой пользователь уже есть.")
         if db_sess.query(User).filter(User.name == form.name.data).first():
@@ -80,9 +79,18 @@ def register():
 
 @app.route('/user/<int:id>', methods=['GET', 'POST'])
 def user_page(id):
-    db_sess = db_session.create_session()
-    user = db_sess.query(User).get(id)
-    return render_template('userpage.html', title=user.name)
+    return render_template('userpage.html', title=load_user(id).name)
+
+
+@app.route('/user')
+def current_user_page():
+    return redirect('/user/' + str(current_user.id))
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
 
 
 def main():
