@@ -1,9 +1,9 @@
-from flask import Flask, make_response, render_template, redirect
+from flask import Flask, render_template, redirect, abort
 from flask_wtf import FlaskForm
 from databases.site_news import SiteNews
 from databases.users import User
 from databases import db_session
-from wtforms import PasswordField, BooleanField, SubmitField, StringField
+from wtforms import PasswordField, SubmitField, StringField
 from wtforms.validators import DataRequired
 
 from flask_login import LoginManager, current_user, login_user, logout_user
@@ -47,10 +47,9 @@ def sign_in():
     form = SignInForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        user1 = db_sess.query(User).filter(User.login == form.login.data).first()
-        user2 = db_sess.query(User).filter(User.password == form.password.data).first()
-        if user1 and user2:
-            login_user(user1)
+        user = db_sess.query(User).filter(User.login == form.login.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user)
             return redirect("/")
     return render_template('signing_in.html', form=form)
 
@@ -71,6 +70,7 @@ def register():
             login=form.login.data,
             password=form.password.data
         )
+        user.set_password(user.password)
         db_sess.add(user)
         db_sess.commit()
         return redirect('/')
