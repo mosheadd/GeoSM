@@ -39,14 +39,14 @@ def load_user(user_id):
 def main_page():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
-    return render_template('base.html', sitenews=all_news)
+    return render_template('mainpage.html', sitenews=all_news)
 
 
 @app.route('/si')
 def main_page_si():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
-    return render_template('base.html', sitenews=all_news)
+    return render_template('mainpage.html', sitenews=all_news)
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])

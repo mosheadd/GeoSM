@@ -23,18 +23,8 @@
       </nav>
     </header>
 <main role="main">
-        <h1>Новости сайта</h1>
-{% for item in sitenews%}
-<div>
-    <h2>{{item.title}}</h2>
-    <div>
-        {{item.quickdescription}}
-    </div>
-    <div>
-        Дата написания - {{item.date}}
-    </div>
-</div>
-{% endfor %}
+    <!-- Begin page content -->
+    {% block content %} {% endblock %}
 </main>
 </body>
 </html>

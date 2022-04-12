@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Новости сайта</h1>
+{% for item in sitenews%}
+<div>
+    <h2>{{item.title}}</h2>
+    <div>
+        {{item.quickdescription}}
+    </div>
+    <div>
+        Дата написания - {{item.date}}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
