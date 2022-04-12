@@ -42,13 +42,6 @@ def main_page():
     return render_template('mainpage.html', sitenews=all_news)
 
 
-@app.route('/si')
-def main_page_si():
-    db_sess = db_session.create_session()
-    all_news = db_sess.query(SiteNews)
-    return render_template('mainpage.html', sitenews=all_news)
-
-
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
     form = SignInForm()
@@ -58,7 +51,7 @@ def sign_in():
         user2 = db_sess.query(User).filter(User.password == form.password.data).first()
         if user1 and user2:
             login_user(user1)
-            return redirect("/si")
+            return redirect("/")
     return render_template('signing_in.html', form=form)
 
 
@@ -81,7 +74,7 @@ def register():
         )
         db_sess.add(user)
         db_sess.commit()
-        return redirect('/si')
+        return redirect('/')
     return render_template('signing_up.html', form=form)
 
 
