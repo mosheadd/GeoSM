@@ -32,6 +32,42 @@
 	background-size: 200% auto;
 	right : 150px;
 }
+.mainpage
+{
+	color : red;
+	font-size : 250%;
+	padding: 20px 30px;
+	margin: 10px 20px;
+	border-radius: 10px;
+	position: absolute;
+	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
+	background-size: 200% auto;
+	left : 490px;
+}
+.account
+{
+	color : red;
+	font-size : 250%;
+	padding: 20px 30px;
+	margin: 10px 20px;
+	border-radius: 10px;
+	position: absolute;
+	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
+	background-size: 200% auto;
+	left : 700px;
+}
+.groups
+{
+	color : red;
+	font-size : 250%;
+	padding: 20px 30px;
+	margin: 10px 20px;
+	border-radius: 10px;
+	position: absolute;
+	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
+	background-size: 200% auto;
+	left : 910px;
+}
 h1 {
 	color : red;
 	position: absolute;
