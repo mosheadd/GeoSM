@@ -13,4 +13,7 @@
     </div>
 </div>
 {% endfor %}
+{% if current_user.is_site_admin %}
+<a class="addnews" href="/add_news">Добавить новость.</a>
+{% endif %}
 {% endblock %}

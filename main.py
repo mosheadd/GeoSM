@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from databases.site_news import SiteNews
 from databases.users import User
 from databases import db_session
-from wtforms import PasswordField, SubmitField, StringField
+from wtforms import PasswordField, SubmitField, StringField, TextAreaField
 from wtforms.validators import DataRequired
 
 from flask_login import LoginManager, current_user, login_user, logout_user
@@ -27,6 +27,12 @@ class SignInForm(FlaskForm):
     login = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     submit = SubmitField('Войти')
+
+
+class NewsForm(FlaskForm):
+    title = StringField('Заголовок', validators=[DataRequired()])
+    content = TextAreaField("Содержание")
+    submit = SubmitField('Применить')
 
 
 @login_manager.user_loader
@@ -91,6 +97,12 @@ def current_user_page():
 def logout():
     logout_user()
     return redirect('/')
+
+
+@app.route('/add_news')
+def add_news():
+    form = NewsForm()
+    return render_template('addnews.html', title='Добавить новость', form=form)
 
 
 def main():
