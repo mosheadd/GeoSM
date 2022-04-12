@@ -39,14 +39,14 @@ def load_user(user_id):
 def main_page():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
-    return render_template('main_page_not_signed_in.html', sitenews=all_news)
+    return render_template('base.html', sitenews=all_news)
 
 
 @app.route('/si')
 def main_page_si():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
-    return render_template('main_page_signed_in.html', sitenews=all_news)
+    return render_template('base.html', sitenews=all_news)
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])
@@ -83,6 +83,11 @@ def register():
         db_sess.commit()
         return redirect('/si')
     return render_template('signing_up.html', form=form)
+
+
+@app.route('/user/<int:id>', methods=['GET', 'POST'])
+def user_page(id):
+    pass
 
 
 def main():

@@ -10,8 +10,15 @@
 <header>
       <nav>
     <p>
+        {% if current_user.is_authenticated %}
+        <a class="mainpage" href="/">Главная</a>
+        <a class="account" href="/">Аккаунт</a>
+        <a class="groups" href="/">Группы</a>
+        <a class="logout" href="/">Выйти</a>
+        {% else %}
         <a class="signup" href="/register">Зарегистрироваться</a>
         <a class="signin" href="/sign_in">Войти</a>
+        {% endif %}
     </p>
       </nav>
     </header>
@@ -28,6 +35,6 @@
     </div>
 </div>
 {% endfor %}
-    </main>
+</main>
 </body>
 </html>
