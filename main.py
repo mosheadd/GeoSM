@@ -39,7 +39,7 @@ def load_user(user_id):
 def main_page():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
-    return render_template('mainpage.html', sitenews=all_news)
+    return render_template('mainpage.html', sitenews=all_news, title="Главная страница")
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])
@@ -80,7 +80,9 @@ def register():
 
 @app.route('/user/<int:id>', methods=['GET', 'POST'])
 def user_page(id):
-    pass
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).get(id)
+    return render_template('userpage.html', title=user.name)
 
 
 def main():
