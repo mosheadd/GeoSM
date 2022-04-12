@@ -54,9 +54,10 @@ def sign_in():
     form = SignInForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.login == form.login.data).first()
-        if user and user.check_password(form.password.data):
-            login_user(user)
+        user1 = db_sess.query(User).filter(User.login == form.login.data).first()
+        user2 = db_sess.query(User).filter(User.password == form.password.data).first()
+        if user1 and user2:
+            login_user(user1)
             return redirect("/si")
     return render_template('signing_in.html', form=form)
 
