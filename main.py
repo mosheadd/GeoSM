@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, abort
 from flask_wtf import FlaskForm
 from databases.site_news import SiteNews
 from databases.users import User
+from databases.groups import Group
 from databases import db_session
 from wtforms import PasswordField, SubmitField, StringField, TextAreaField
 from wtforms.validators import DataRequired
@@ -32,6 +33,13 @@ class SignInForm(FlaskForm):
 class NewsForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField("Содержание")
+    quickdescription = TextAreaField("Краткое содержание")
+    submit = SubmitField('Применить')
+
+
+class AddCreateGroupForm(FlaskForm):
+    title = StringField('Заголовок', validators=[DataRequired()])
+    about = TextAreaField("Описание")
     submit = SubmitField('Применить')
 
 
@@ -99,10 +107,47 @@ def logout():
     return redirect('/')
 
 
-@app.route('/add_news')
+@app.route('/add_news', methods=['GET', 'POST'])
 def add_news():
     form = NewsForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        news = SiteNews(
+            title=form.title.data,
+            content=form.content.data,
+            quickdescription=form.quickdescription.data
+        )
+        db_sess.add(news)
+        db_sess.commit()
+        return redirect('/')
     return render_template('addnews.html', title='Добавить новость', form=form)
+
+
+@app.route('/groups')
+def groups():
+    return render_template('groups.html', title='Группы')
+
+
+@app.route('/groups/managing')
+def groups_managing():
+    return render_template('groupsmanaging.html', title='Ваши группы')
+
+
+@app.route('/groups/group_creating', methods=['GET', 'POST'])
+def create_group():
+    form = AddCreateGroupForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        if db_sess.query(Group).filter(Group.name == form.title.data).first():
+            return render_template('addgroup.html', form=form, message="Группа с таким название уже существует.")
+        group = Group(
+            name=form.title.data,
+            about=form.about.data
+        )
+        db_sess.add(group)
+        db_sess.commit()
+        return redirect('/groups/managing')
+    return render_template('addgroup.html', form=form)
 
 
 def main():
