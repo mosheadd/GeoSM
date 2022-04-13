@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if current_user.is_site_admin %}
+<a class="addnews" href="/add_news">Добавить новость.</a>
+{% endif %}
 <h1>Новости сайта</h1>
 {% for item in sitenews%}
 <div>
     <h2>{{item.title}}</h2>
     <div>
-        {{item.quickdescription}}
+        <p>{{item.quickdescription}}</p>
     </div>
     <div>
-        Дата написания - {{item.date}}
+        <p>Дата написания - {{item.date}}</p>
     </div>
 </div>
 {% endfor %}
-{% if current_user.is_site_admin %}
-<a class="addnews" href="/add_news">Добавить новость.</a>
-{% endif %}
 {% endblock %}

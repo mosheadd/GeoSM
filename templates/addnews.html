@@ -19,6 +19,15 @@
         {% endfor %}
     </p>
     <p>
+        {{ form.quickdescription.label }}<br>
+        {{ form.quickdescription(class="form-control") }}<br>
+        {% for error in form.quickdescription.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
         {{ form.content.label }}<br>
         {{ form.content(class="form-control") }}<br>
         {% for error in form.content.errors %}

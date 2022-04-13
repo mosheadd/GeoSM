@@ -99,6 +99,11 @@
 	left : 650px;
 	top : 125px;
 }
+.newsdiv
+{
+	position: absolute;
+	left : 650px;
+}
 h1 {
 	color : red;
 	position: absolute;
