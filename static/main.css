@@ -99,10 +99,16 @@
 	left : 650px;
 	top : 125px;
 }
-.newsdiv
+.allnewsdiv
 {
 	position: absolute;
-	left : 650px;
+	top : 170px;
+	left : 745px;
+}
+.onenewsdiv
+{
+	border : solid 1px black; 
+	padding : 15px;
 }
 h1 {
 	color : red;

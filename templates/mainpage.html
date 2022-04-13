@@ -5,8 +5,9 @@
 <a class="addnews" href="/add_news">Добавить новость.</a>
 {% endif %}
 <h1>Новости сайта</h1>
+<div class="allnewsdiv">
 {% for item in sitenews%}
-<div>
+<div class="onenewsdiv">
     <h2>{{item.title}}</h2>
     <div>
         <p>{{item.quickdescription}}</p>
@@ -16,4 +17,5 @@
     </div>
 </div>
 {% endfor %}
+</div>
 {% endblock %}
