@@ -130,7 +130,9 @@ def groups():
 
 @app.route('/groups/managing')
 def groups_managing():
-    return render_template('groupsmanaging.html', title='Ваши группы')
+    db_sess = db_session.create_session()
+    all_groups = db_sess.query(Group)
+    return render_template('groupsmanaging.html', title='Ваши группы', groups=all_groups)
 
 
 @app.route('/groups/group_creating', methods=['GET', 'POST'])

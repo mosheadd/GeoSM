@@ -2,6 +2,14 @@
 
 {% block content %}
 <p>
-    <a class="managing" href="/groups/group_creating">Создать группу</a>
+    <a class="addnews" href="/groups/group_creating">Создать группу</a>
 </p>
+<h1>Ваши группы:</h1> <br>
+<div class="allnewsdiv">
+    {% for elem in groups %}
+    <div class="onenewsdiv">
+        <h2>{{elem.name}}</h2>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
