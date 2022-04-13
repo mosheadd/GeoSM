@@ -9,5 +9,4 @@ class Group(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     about = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    admins_ids = []
-
+    admins_ids = sqlalchemy.Column(sqlalchemy.String, nullable=True)

@@ -142,7 +142,8 @@ def create_group():
             return render_template('addgroup.html', form=form, message="Группа с таким название уже существует.")
         group = Group(
             name=form.title.data,
-            about=form.about.data
+            about=form.about.data,
+            admins_ids=str(current_user.id)
         )
         db_sess.add(group)
         db_sess.commit()
