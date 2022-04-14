@@ -80,12 +80,6 @@
 	background-size: 200% auto;
 	left : 50px;
 }
-.title
-{
-	position: absolute;
-	top : 150;
-	left : 1250;
-}
 .managing
 {
 	color : red;
@@ -116,7 +110,7 @@
 	top : 170px;
 	left : 660px;
 }
-.newstitle
+.title
 {
 	font-size : 1.35em;
 }

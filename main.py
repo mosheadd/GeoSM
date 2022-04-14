@@ -152,7 +152,14 @@ def create_group():
 def news_page(id):
     db_sess = db_session.create_session()
     news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
-    return render_template('newspage.html', title='NewsPage', sitenews=news)
+    return render_template('newspage.html', title=news.title, sitenews=news)
+
+
+@app.route('/groups/<int:id>', methods=['GET', 'POST'])
+def group_page(id):
+    db_sess = db_session.create_session()
+    group = db_sess.query(Group).filter(Group.id == id).first()
+    return render_template('groupage.html', title=group.name, group=group)
 
 
 def main():

@@ -8,7 +8,7 @@
 <div class="allnewsdiv">
     {% for elem in groups %}
     <div class="onenewsdiv">
-        <h2>{{elem.name}}</h2>
+        <a class="title" href=/groups/{{elem.id}}>{{elem.name}}</a>
     </div>
     {% endfor %}
 </div>
