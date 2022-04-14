@@ -1,8 +1,9 @@
-from flask import Flask, render_template, redirect, abort
+from flask import Flask, render_template, redirect
 from flask_wtf import FlaskForm
 from databases.site_news import SiteNews
 from databases.users import User
 from databases.groups import Group
+from databases.posts import Post
 from databases import db_session
 from wtforms import PasswordField, SubmitField, StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
@@ -32,7 +33,7 @@ class SignInForm(FlaskForm):
 
 class NewsForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
-    content = TextAreaField("Содержание")
+    content = TextAreaField("Содержание", validators=[DataRequired()])
     quickdescription = TextAreaField("Краткое содержание")
     submit = SubmitField('Применить')
 
@@ -42,6 +43,13 @@ class AddCreateGroupForm(FlaskForm):
     about = TextAreaField("Описание")
     everyone_can_post = BooleanField()
     submit = SubmitField('Применить')
+
+
+class CreatePostForm(FlaskForm):
+    title = StringField('Заголовок', validators=[DataRequired()])
+    text = TextAreaField("Текст")
+    anonymously = BooleanField()
+    submit = SubmitField('Опубликовать')
 
 
 @login_manager.user_loader
@@ -119,6 +127,13 @@ def add_news():
     return render_template('addnews.html', title='Добавить новость', form=form)
 
 
+@app.route('/news/<int:id>', methods=['GET', 'POST'])
+def news_page(id):
+    db_sess = db_session.create_session()
+    news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
+    return render_template('newspage.html', title=news.title, sitenews=news)
+
+
 @app.route('/groups')
 def groups():
     return render_template('groups.html', title='Группы')
@@ -153,18 +168,31 @@ def create_group():
     return render_template('addgroup.html', form=form)
 
 
-@app.route('/news/<int:id>', methods=['GET', 'POST'])
-def news_page(id):
-    db_sess = db_session.create_session()
-    news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
-    return render_template('newspage.html', title=news.title, sitenews=news)
-
-
 @app.route('/groups/<int:id>', methods=['GET', 'POST'])
 def group_page(id):
     db_sess = db_session.create_session()
     group = db_sess.query(Group).filter(Group.id == id).first()
     return render_template('groupage.html', title=group.name, group=group)
+
+
+@app.route('/groups/<int:id>/create_post', methods=['GET', 'POST'])
+def create_group_post(id):
+    db_sess = db_session.create_session()
+    group = db_sess.query(Group).filter(Group.id == id).first()
+    creator = db_sess.query(User).filter(User.id == current_user.id).first()
+    form = CreatePostForm()
+    if form.validate_on_submit():
+        post = Post(
+            title=form.title.data,
+            text=form.text.data,
+            anonymously=form.anonymously.data,
+            creator=creator.id,
+            group_id=id
+        )
+        db_sess.add(post)
+        db_sess.commit()
+        return redirect('/groups/' + str(id))
+    return render_template('createpost.html', group=group, form=form)
 
 
 def main():
