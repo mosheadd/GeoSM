@@ -27,6 +27,8 @@
             </p>
         {% endfor %}
     </p>
+    <h2>Настройки</h2>
+    <p>Каждый может создавать публиковать записи{{ form.everyone_can_post(type="checkbox") }}</p>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>

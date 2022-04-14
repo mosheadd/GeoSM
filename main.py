@@ -4,7 +4,7 @@ from databases.site_news import SiteNews
 from databases.users import User
 from databases.groups import Group
 from databases import db_session
-from wtforms import PasswordField, SubmitField, StringField, TextAreaField
+from wtforms import PasswordField, SubmitField, StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
 
 from flask_login import LoginManager, current_user, login_user, logout_user
@@ -40,6 +40,7 @@ class NewsForm(FlaskForm):
 class AddCreateGroupForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     about = TextAreaField("Описание")
+    everyone_can_post = BooleanField()
     submit = SubmitField('Применить')
 
 
@@ -142,6 +143,10 @@ def create_group():
             about=form.about.data,
             admins_ids=str(current_user.id)
         )
+        if form.everyone_can_post.data:
+            group.everyone_can_post = 1
+        else:
+            group.everyone_can_post = 0
         db_sess.add(group)
         db_sess.commit()
         return redirect('/groups/managing')
