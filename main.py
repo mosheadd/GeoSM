@@ -172,7 +172,8 @@ def create_group():
 def group_page(id):
     db_sess = db_session.create_session()
     group = db_sess.query(Group).filter(Group.id == id).first()
-    return render_template('groupage.html', title=group.name, group=group)
+    all_posts = db_sess.query(Post).filter(Post.group_id == id)
+    return render_template('groupage.html', title=group.name, group=group, allgroups=all_posts)
 
 
 @app.route('/groups/<int:id>/create_post', methods=['GET', 'POST'])

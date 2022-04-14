@@ -2,4 +2,20 @@
 {% block content %}
 <a class="topleft" href="/groups/{{group.id}}/create_post">Создать пост</a>
 <h1>{{group.name}}</h1>
+<div class="allnewsdiv">
+{% for item in allgroups%}
+<div class="onenewsdiv">
+    <h2>{{item.title}}</h2>
+    <div>
+        <p>{{item.text}}</p>
+    </div>
+    <div>
+        <p>Опубликовано - {{item.date}}</p>
+        {% if not item.anonymously %}
+        <a href=/user/{{item.creator}}>Автор</a>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+</div>
 {% endblock %}
