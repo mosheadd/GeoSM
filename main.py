@@ -96,11 +96,6 @@ def user_page(id):
     return render_template('userpage.html', title=load_user(id).name)
 
 
-@app.route('/user')
-def current_user_page():
-    return redirect('/user/' + str(current_user.id))
-
-
 @app.route('/logout')
 def logout():
     logout_user()
@@ -151,6 +146,13 @@ def create_group():
         db_sess.commit()
         return redirect('/groups/managing')
     return render_template('addgroup.html', form=form)
+
+
+@app.route('/news/<int:id>', methods=['GET', 'POST'])
+def news_page(id):
+    db_sess = db_session.create_session()
+    news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
+    return render_template('newspage.html', title='NewsPage', sitenews=news)
 
 
 def main():

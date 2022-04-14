@@ -68,7 +68,7 @@
 	background-size: 200% auto;
 	left : 910px;
 }
-.addnews
+.topleft
 {
 	color : red;
 	font-size : 250%;
@@ -109,6 +109,16 @@
 {
 	border : solid 1px black; 
 	padding : 15px;
+}
+.newsdesc
+{
+	position: absolute;
+	top : 170px;
+	left : 660px;
+}
+.newstitle
+{
+	font-size : 1.35em;
 }
 h1 {
 	color : red;

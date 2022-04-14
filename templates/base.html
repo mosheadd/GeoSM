@@ -12,7 +12,7 @@
           <p>
               {% if current_user.is_authenticated %}
               <a class="mainpage" href="/">Главная</a>
-              <a class="account" href="/user">Аккаунт</a>
+              <a class="account" href=/user/{{current_user.id}}>Аккаунт</a>
               <a class="groups" href="/groups">Группы</a>
               <a class="logout" href="/logout">Выйти</a>
               {% else %}

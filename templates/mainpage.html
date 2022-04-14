@@ -2,13 +2,13 @@
 
 {% block content %}
 {% if current_user.is_site_admin %}
-<a class="addnews" href="/add_news">Добавить новость.</a>
+<a class="topleft" href="/add_news">Добавить новость.</a>
 {% endif %}
 <h1>Новости сайта</h1>
 <div class="allnewsdiv">
 {% for item in sitenews%}
 <div class="onenewsdiv">
-    <h2>{{item.title}}</h2>
+    <a class="newstitle" href=/news/{{item.id}}>{{item.title}}</a>
     <div>
         <p>{{item.quickdescription}}</p>
     </div>
