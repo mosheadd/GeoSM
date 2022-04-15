@@ -116,6 +116,9 @@ def add_news():
     form = NewsForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
+        if len(form.quickdescription.data) >= 80:
+            return render_template('addnews.html', title='Добавить новость', form=form,
+                                   message="Краткое содержание должно иметь не более 80 символов(включая пробелы)")
         news = SiteNews(
             title=form.title.data,
             content=form.content.data,
@@ -142,7 +145,7 @@ def groups():
 @app.route('/groups/managing')
 def groups_managing():
     db_sess = db_session.create_session()
-    all_groups = db_sess.query(Group)
+    all_groups = db_sess.query(Group).filter(Group.admins_ids == current_user.id)
     return render_template('groupsmanaging.html', title='Ваши группы', groups=all_groups)
 
 

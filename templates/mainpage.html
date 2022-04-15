@@ -6,7 +6,7 @@
 {% endif %}
 <h1>Новости сайта</h1>
 <div class="allnewsdiv">
-{% for item in sitenews%}
+{% for item in sitenews[::-1]%}
 <div class="onenewsdiv">
     <a class="title" href=/news/{{item.id}}>{{item.title}}</a>
     <div>
