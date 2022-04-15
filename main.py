@@ -157,7 +157,7 @@ def delete_news(id):
 
 @app.route('/groups', methods=['GET', 'POST'])
 def groups():
-    return render_template('groups.html', title='Группы')
+    return render_template('groups.html', title='Группы', found_groups='NO_REQUEST')
 
 
 @app.route('/groups/searching', methods=['GET', 'POST'])

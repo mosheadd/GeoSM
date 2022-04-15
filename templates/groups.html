@@ -12,10 +12,13 @@
         <input type="text" size="40" name="search_data"> <input type="submit" value="Принять">
     </form>
     <br>
-</div>
-{% if found_groups %}
-<h2>Найденные группы:</h2> <br>
+{% if found_groups == 'NO_REQUEST' %}
 <div class="allnewsdiv">
+    <h2></h2>
+</div>
+{% elif found_groups %}
+<div>
+    <h2>Найденные группы:</h2> <br>
     {% for elem in found_groups %}
     <div class="onenewsdiv">
         <a class="title" href=/groups/{{elem.id}}>{{elem.name}}</a>
@@ -23,6 +26,9 @@
     {% endfor %}
 </div>
 {% else %}
-<h2>Ничего не найдено</h2>
+<div>
+    <h2>Ничего не найдено</h2>
+</div>
 {% endif %}
+</div>
 {% endblock %}
