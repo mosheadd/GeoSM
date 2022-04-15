@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>{{sitenews.title}}</h1>
-<div class="newsdesc">{{sitenews.content}}</div>
+<div class="newsdesc">
+    {{sitenews.content}}
+    <br>
+    <br>
+    <p>
+    {% if current_user.is_site_admin %}
+        <a class="btndefault" href="/delete_news/{{sitenews.id}}">Удалить новость.</a>
+    {% endif %}
+    </p>
+</div>
 {% endblock %}

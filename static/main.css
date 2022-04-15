@@ -93,6 +93,17 @@
 	left : 650px;
 	top : 125px;
 }
+.btndefault
+{
+	color : red;
+	font-size : 250%;
+	padding: 20px 30px;
+	margin: 10px 20px;
+	border-radius: 10px;
+	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
+	background-size: 200% auto;
+	top : 10px;
+}
 .allnewsdiv
 {
 	position: absolute;
