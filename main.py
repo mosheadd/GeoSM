@@ -137,6 +137,15 @@ def news_page(id):
     return render_template('newspage.html', title=news.title, sitenews=news)
 
 
+@app.route('/delete_news/<int:id>', methods=['GET', 'POST'])
+def delete_news(id):
+    db_sess = db_session.create_session()
+    delete_this = db_session.sa.delete(SiteNews).where(SiteNews.id == id)
+    db_sess.execute(delete_this)
+    db_sess.commit()
+    return redirect('/')
+
+
 @app.route('/groups')
 def groups():
     return render_template('groups.html', title='Группы')
