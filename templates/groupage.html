@@ -3,19 +3,43 @@
 <a class="topleft" href="/groups/{{group.id}}/create_post">Создать пост</a>
 <h1>{{group.name}}</h1>
 <div class="allnewsdiv">
-{% for item in allgroups%}
-<div class="onenewsdiv">
-    <h2>{{item.title}}</h2>
-    <div>
-        <p>{{item.text}}</p>
+    <form action="{{ url_for('group_page_sorted', id=group.id)}}" method="post">
+        <select name="sort_select">
+            <option>По дате: сначала новые.</option>
+            <option>По дате: сначала старые.</option>
+        </select>
+        <input type="submit" value="Принять">
+    </form>
+    {% if select_data == 'По дате: сначала старые.' %}
+    {% for item in allgroups%}
+    <div class="onenewsdiv">
+        <h2>{{item.title}}</h2>
+        <div>
+            <p>{{item.text}}</p>
+        </div>
+        <div>
+            <p>Опубликовано - {{item.date}}</p>
+            {% if not item.anonymously %}
+            <a href=/user/{{item.creator}}>Автор</a>
+            {% endif %}
+        </div>
     </div>
-    <div>
-        <p>Опубликовано - {{item.date}}</p>
-        {% if not item.anonymously %}
-        <a href=/user/{{item.creator}}>Автор</a>
-        {% endif %}
+    {% endfor %}
+    {% else %}
+    {% for item in allgroups[::-1]%}
+    <div class="onenewsdiv">
+        <h2>{{item.title}}</h2>
+        <div>
+            <p>{{item.text}}</p>
+        </div>
+        <div>
+            <p>Опубликовано - {{item.date}}</p>
+            {% if not item.anonymously %}
+            <a href=/user/{{item.creator}}>Автор</a>
+            {% endif %}
+        </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}

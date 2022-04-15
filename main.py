@@ -173,7 +173,7 @@ def create_group():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         if db_sess.query(Group).filter(Group.name == form.title.data).first():
-            return render_template('addgroup.html', form=form, message="Группа с таким название уже существует.")
+            return render_template('addgroup.html', form=form, message="Группа с таким названием уже существует.")
         group = Group(
             name=form.title.data,
             about=form.about.data,
@@ -195,6 +195,16 @@ def group_page(id):
     group = db_sess.query(Group).filter(Group.id == id).first()
     all_posts = db_sess.query(Post).filter(Post.group_id == id)
     return render_template('groupage.html', title=group.name, group=group, allgroups=all_posts)
+
+
+@app.route('/groups/<int:id>/sorted', methods=['GET', 'POST'])
+def group_page_sorted(id):
+    db_sess = db_session.create_session()
+    group = db_sess.query(Group).filter(Group.id == id).first()
+    all_posts = db_sess.query(Post).filter(Post.group_id == id)
+    print(request.form['sort_select'])
+    return render_template('groupage.html', title=group.name, group=group, allgroups=all_posts,
+                           select_data=request.form['sort_select'])
 
 
 @app.route('/groups/<int:id>/create_post', methods=['GET', 'POST'])
