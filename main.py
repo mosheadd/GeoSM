@@ -155,9 +155,18 @@ def delete_news(id):
     return redirect('/')
 
 
-@app.route('/groups')
+@app.route('/groups', methods=['GET', 'POST'])
 def groups():
     return render_template('groups.html', title='Группы')
+
+
+@app.route('/groups/searching', methods=['GET', 'POST'])
+def groups_find():
+    db_sess = db_session.create_session()
+    requested_title = request.form["search_data"]
+    search = "%{}%".format(requested_title)
+    found_groups = db_sess.query(Group).filter(Group.name.like(search)).all()
+    return render_template('groups.html', title='Группы', found_groups=found_groups)
 
 
 @app.route('/groups/managing')

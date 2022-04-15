@@ -4,4 +4,25 @@
 <p>
     <a class="managing" href="/groups/managing">Управление</a>
 </p>
+<div class="newsdesc">
+    <br>
+    <br>
+    <form action="{{ url_for('groups_find')}}" method="post">
+        <p> <h2>Поиск:</h2>
+        <input type="text" size="40" name="search_data"> <input type="submit" value="Принять">
+    </form>
+    <br>
+</div>
+{% if found_groups %}
+<h2>Найденные группы:</h2> <br>
+<div class="allnewsdiv">
+    {% for elem in found_groups %}
+    <div class="onenewsdiv">
+        <a class="title" href=/groups/{{elem.id}}>{{elem.name}}</a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<h2>Ничего не найдено</h2>
+{% endif %}
 {% endblock %}
