@@ -62,7 +62,7 @@ def load_user(user_id):
 def main_page():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
-    return render_template('mainpage.html', sitenews=all_news, title="Главная страница")
+    return render_template('mainpage.hstml', sitenews=all_news, title="Главная страница")
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])
