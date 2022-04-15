@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_wtf import FlaskForm
 from databases.site_news import SiteNews
 from databases.users import User
@@ -58,11 +58,20 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def main_page():
     db_sess = db_session.create_session()
     all_news = db_sess.query(SiteNews)
-    return render_template('mainpage.hstml', sitenews=all_news, title="Главная страница")
+    return render_template('mainpage.html', sitenews=all_news, title="Главная страница",
+                           select_data='По дате: сначала новые.')
+
+
+@app.route('/sorted', methods=['GET', 'POST'])
+def main_page_sorted():
+    db_sess = db_session.create_session()
+    all_news = db_sess.query(SiteNews)
+    return render_template('mainpage.html', sitenews=all_news, title="Главная страница",
+                           select_data=request.form['sort_select'])
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])

@@ -6,24 +6,38 @@
 {% endif %}
 <h1>Новости сайта</h1>
 <div class="allnewsdiv">
-    <form action="" method="post">
-        <select>
+    <form action="{{ url_for('main_page_sorted')}}" method="post">
+        <select name="sort_select">
             <option selected="selected">Сортировать новости</option>
             <option>По дате: сначала новые.</option>
             <option>По дате: сначала старые.</option>
         </select>
         <input type="submit" value="Принять">
     </form>
-{% for item in sitenews[::-1]%}
-<div class="onenewsdiv">
-    <a class="title" href=/news/{{item.id}}>{{item.title}}</a>
-    <div>
-        <p>{{item.quickdescription}}</p>
+    {% if select_data == 'По дате: сначала новые.' %}
+    {% for item in sitenews[::-1]%}
+    <div class="onenewsdiv">
+        <a class="title" href=/news/{{item.id}}>{{item.title}}</a>
+        <div>
+            <p>{{item.quickdescription}}</p>
+        </div>
+        <div>
+            <p>Дата написания - {{item.date}}</p>
+        </div>
     </div>
-    <div>
-        <p>Дата написания - {{item.date}}</p>
+    {% endfor %}
+    {% else %}
+    {% for item in sitenews%}
+    <div class="onenewsdiv">
+        <a class="title" href=/news/{{item.id}}>{{item.title}}</a>
+        <div>
+            <p>{{item.quickdescription}}</p>
+        </div>
+        <div>
+            <p>Дата написания - {{item.date}}</p>
+        </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}
