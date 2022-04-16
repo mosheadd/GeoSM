@@ -4,7 +4,7 @@ import sys
 
 from pygame.examples.aliens import load_image
 
-RES = 1000
+RES = 800
 SIZE = 40
 
 x, y = randrange(0, RES, SIZE), randrange(0, RES, SIZE)
@@ -23,13 +23,13 @@ clock = pygame.time.Clock()
 font_score = pygame.font.SysFont('Arial', 26, bold=True)
 font_end = pygame.font.SysFont('Arial', 69, bold=True)
 font_hs = pygame.font.SysFont('Arial', 26, bold=True)
-img = pygame.image.load('look.com.ua-256556.jpg').convert()
+img = pygame.image.load('fon.png').convert()
 
 
 def start_screen(width, height):
     intro = ['Выберите цвет змейки', 'Зеленый', 'Синий', 'Желтый']
     fonts = []
-    background = pygame.transform.scale(load_image('look.com.ua-256556.jpg'), (width, height))
+    background = pygame.transform.scale(load_image('fon.png'), (width, height))
     sc.blit(background, (0, 0))
     y = 5
     for line in intro:
