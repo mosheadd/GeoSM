@@ -7,7 +7,6 @@ from databases.posts import Post
 from databases import db_session
 from wtforms import PasswordField, SubmitField, StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
-
 from flask_login import LoginManager, current_user, login_user, logout_user
 
 
@@ -172,7 +171,9 @@ def groups_find():
 @app.route('/groups/managing')
 def groups_managing():
     db_sess = db_session.create_session()
-    all_groups = db_sess.query(Group).filter(Group.admins_ids == current_user.id)
+    aids = [[ai.id, ai.admins_ids.split(',')] for ai in db_sess.query(Group).all()]
+    groups_ids = [aid[0] for aid in aids if str(current_user.id) in aid[1]]
+    all_groups = db_sess.query(Group).filter(Group.id.in_(tuple(groups_ids))).all()
     return render_template('groupsmanaging.html', title='Ваши группы', groups=all_groups)
 
 
@@ -202,8 +203,13 @@ def create_group():
 def group_page(id):
     db_sess = db_session.create_session()
     group = db_sess.query(Group).filter(Group.id == id).first()
+    is_sub = ''
+    sids = [[si.id, si.subscribers_ids.split(',')] for si in db_sess.query(Group).all()]
+    groups_ids = [sid[0] for sid in sids if str(current_user.id) in sid[1]]
+    if group.id in groups_ids:
+        is_sub = '1'
     all_posts = db_sess.query(Post).filter(Post.group_id == id)
-    return render_template('groupage.html', title=group.name, group=group, allgroups=all_posts)
+    return render_template('groupage.html', title=group.name, group=group, allgroups=all_posts, is_sub=is_sub)
 
 
 @app.route('/groups/<int:id>/sorted', methods=['GET', 'POST'])
@@ -234,6 +240,30 @@ def create_group_post(id):
         db_sess.commit()
         return redirect('/groups/' + str(id))
     return render_template('createpost.html', group=group, form=form)
+
+
+@app.route('/groups/<int:id>/subscribe')
+def group_subscribing(id):
+    db_sess = db_session.create_session()
+    group = db_sess.query(Group).filter(Group.id == id).first()
+    group.subscribers_ids += ',' + str(current_user.id)
+    db_sess.commit()
+    return redirect('/groups/' + str(group.id))
+
+
+@app.route('/groups/<int:id>/unsubscribe')
+def group_unsubscribing(id):
+    db_sess = db_session.create_session()
+    group = db_sess.query(Group).filter(Group.id == id).first()
+    sids = [si.subscribers_ids.split(',') for si in db_sess.query(Group).all()]
+    new_sids = sids[group.id - 1]
+    new_sids.remove(str(current_user.id))
+    new_sids_str = ""
+    for i in new_sids:
+        new_sids_str += i
+    group.subscribers_ids = new_sids_str
+    db_sess.commit()
+    return redirect('/groups/' + str(group.id))
 
 
 def main():

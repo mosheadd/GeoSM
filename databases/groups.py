@@ -10,4 +10,5 @@ class Group(SqlAlchemyBase):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     about = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     admins_ids = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    subscribers_ids = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     everyone_can_post = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)

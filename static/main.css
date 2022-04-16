@@ -80,6 +80,19 @@
 	background-size: 200% auto;
 	left : 50px;
 }
+.topright
+{
+	color : red;
+	font-size : 250%;
+	padding: 20px 30px;
+	margin: 10px 20px;
+	border-radius: 10px;
+	position: absolute;
+	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
+	background-size: 200% auto;
+	right : 50px;
+	top : 115px;
+}
 .managing
 {
 	color : red;
@@ -112,6 +125,8 @@
 }
 .onenewsdiv
 {
+	width : 300px;
+	max-width : 300px;
 	border : solid 1px black; 
 	padding : 15px;
 }

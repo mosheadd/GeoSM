@@ -42,4 +42,9 @@
     {% endfor %}
     {% endif %}
 </div>
+{% if is_sub %}
+<a class="topright" href="/groups/{{group.id}}/unsubscribe">Отписаться.</a>
+{% else %}
+<a class="topright" href="/groups/{{group.id}}/subscribe">Подписаться.</a>
+{% endif %}
 {% endblock %}
