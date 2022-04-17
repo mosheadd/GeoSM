@@ -101,6 +101,7 @@ def register():
             login=form.login.data,
             password=form.password.data
         )
+        user.is_site_admin = 0
         user.set_password(user.password)
         db_sess.add(user)
         db_sess.commit()
