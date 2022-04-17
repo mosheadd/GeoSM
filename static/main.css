@@ -151,3 +151,16 @@ h1 {
 	top : 105px;
 	left : 790px;
 }
+
+.start
+{
+	color : red;
+	font-size : 250%;
+	padding: 20px 30px;
+	margin: 10px 20px;
+	border-radius: 10px;
+	position: absolute;
+	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
+	background-size: 200% auto;
+	left : 900px;
+}
