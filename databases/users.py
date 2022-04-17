@@ -14,6 +14,7 @@ class User(SqlAlchemyBase, UserMixin):
     login = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     is_site_admin = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
+    highest_score = sqlalchemy.Column(sqlalchemy.Integer)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
