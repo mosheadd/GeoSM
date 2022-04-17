@@ -8,7 +8,7 @@ from databases import db_session
 from wtforms import PasswordField, SubmitField, StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
 from flask_login import LoginManager, current_user, login_user, logout_user
-import snace.py
+import snace
 
 
 app = Flask(__name__)
