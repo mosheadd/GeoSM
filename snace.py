@@ -89,8 +89,8 @@ def start_screen(width, height):
         clock.tick(fps)
 
 
-def game(qwer):
-    global apple, score, snake, x, dx, y, dy, lenght, fps, dirs, hs
+def game(qwer, hs):
+    global apple, score, snake, x, dx, y, dy, lenght, fps, dirs
     sc.blit(img, (0, 0))
     # drawing snake
     if qwer == 1:
@@ -118,11 +118,9 @@ def game(qwer):
     # game over
     if x < 0 or x > RES - SIZE or y < 0 or y > RES - SIZE or len(snake) != len(set(snake)):
         while True:
-            if score > hs[-1]:
-                hs.append(score)
             render_end = font_end.render('GAME OVER', 1, pygame.Color('red'))
             render_score = font_score.render(f'Score: {str(score)}', 1, pygame.Color('blue'))
-            render_hs = font_hs.render(f'Hight score: {str(hs[-1])}', 1, pygame.Color('blue'))
+            render_hs = font_hs.render(f'Hight score: {str(hs)}', 1, pygame.Color('blue'))
             sc.blit(render_end, (RES // 2 - 200, RES // 3))
             sc.blit(render_score, (RES // 2 - 200, RES // 4))
             sc.blit(render_hs, (RES // 2 + 50, RES // 4))
@@ -155,6 +153,7 @@ def game(qwer):
     if key[pygame.K_d] and dirs['D']:
         dx, dy = 1, 0
         dirs = {'W': True, 'A': False, 'S': True, 'D': True}
+    return score
 
 while True:
     diff = start_screen(RES, RES)

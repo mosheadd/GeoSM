@@ -112,11 +112,18 @@ def register():
 
 @app.route('/game', methods=['GET', 'POST'])
 def start_game():
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
     while True:
         diff = snace.start_screen(snace.RES, snace.RES)
         if diff == 1 or diff == 2 or diff == 3:
             while True:
-                snace.game(diff)
+                score1 = snace.game(diff, user.highest_score)
+                break
+        break
+    if score1 > user.highest_score:
+        user.highest_score = score1
+        db_sess.commit()
     return redirect('/')
 
 
