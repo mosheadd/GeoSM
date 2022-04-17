@@ -8,6 +8,7 @@ from databases import db_session
 from wtforms import PasswordField, SubmitField, StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
 from flask_login import LoginManager, current_user, login_user, logout_user
+import snace.py
 
 
 app = Flask(__name__)
@@ -107,6 +108,23 @@ def register():
         db_sess.commit()
         return redirect('/')
     return render_template('signing_up.html', form=form)
+
+
+@app.route('/game', methods=['GET', 'POST'])
+def start_game():
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    while True:
+        diff = snace.start_screen(snace.RES, snace.RES)
+        if diff == 1 or diff == 2 or diff == 3:
+            while True:
+                score1 = snace.game(diff, user.highest_score)
+                break
+        break
+    if score1 > user.highest_score:
+        user.highest_score = score1
+        db_sess.commit()
+    return redirect('/')
 
 
 @app.route('/user/<int:id>', methods=['GET', 'POST'])

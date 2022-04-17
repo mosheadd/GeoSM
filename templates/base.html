@@ -15,9 +15,11 @@
               <a class="account" href=/user/{{current_user.id}}>Аккаунт</a>
               <a class="groups" href="/groups">Группы</a>
               <a class="logout" href="/logout">Выйти</a>
+              <a class="start" href="/game">Начать игру</a>
               {% else %}
               <a class="signup" href="/register">Зарегистрироваться</a>
               <a class="signin" href="/sign_in">Войти</a>
+
               {% endif %}
           </p>
       </nav>
