@@ -1,10 +1,9 @@
 import pygame
 from random import randrange
 import sys
+import os
 
-from pygame.examples.aliens import load_image
-
-RES = 800
+RES = 760
 SIZE = 40
 
 x, y = randrange(0, RES, SIZE), randrange(0, RES, SIZE)
@@ -24,6 +23,13 @@ font_score = pygame.font.SysFont('Arial', 26, bold=True)
 font_end = pygame.font.SysFont('Arial', 69, bold=True)
 font_hs = pygame.font.SysFont('Arial', 26, bold=True)
 img = pygame.image.load('fon.png').convert()
+
+
+def load_image(name):
+    fullname = os.path.join(name)
+    image = pygame.image.load(fullname)
+    image = image.convert_alpha()
+    return image
 
 
 def start_screen(width, height):
