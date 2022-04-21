@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+{% if group.everyone_can_post and is_sub or is_admin%}
 <a class="topleft" href="/groups/{{group.id}}/create_post">Создать пост</a>
+{% endif %}
 <h1>{{group.name}}</h1>
 <div class="allnewsdiv">
     <form action="{{ url_for('group_page_sorted', id=group.id)}}" method="post">
@@ -42,9 +44,11 @@
     {% endfor %}
     {% endif %}
 </div>
-{% if is_sub %}
-<a class="topright" href="/groups/{{group.id}}/unsubscribe">Отписаться.</a>
-{% else %}
-<a class="topright" href="/groups/{{group.id}}/subscribe">Подписаться.</a>
+{% if not is_admin %}
+    {% if is_sub%}
+        <a class="topright" href="/groups/{{group.id}}/unsubscribe">Отписаться.</a>
+    {% else %}
+        <a class="topright" href="/groups/{{group.id}}/subscribe">Подписаться.</a>
+    {% endif %}
 {% endif %}
 {% endblock %}
