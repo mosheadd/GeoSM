@@ -16,7 +16,7 @@
     {% if select_data == 'По дате: сначала новые.' %}
     {% for item in sitenews[::-1]%}
     <div class="onenewsdiv">
-        <a class="title" href=/news/{{item.id}}>{{item.title}}</a>
+        <a class="title" href=/news/{{item.id}}><h2>{{item.title}}</h2></a>
         <div>
             <p>{{item.quickdescription}}</p>
         </div>
