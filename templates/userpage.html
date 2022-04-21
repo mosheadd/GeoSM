@@ -5,6 +5,7 @@
 {% if current_user.id == userid %}
 <a class="topleft" href="/user/{{current_user.id}}/create_post">Создать пост</a>
 {% endif %}
+<div class="allnewsdiv">
 {% for item in posts%}
     <div class="onenewsdiv">
         <h2>{{item.title}}</h2>
@@ -16,4 +17,5 @@
         </div>
     </div>
 {% endfor %}
+</div>
 {% endblock %}
