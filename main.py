@@ -164,7 +164,9 @@ def start_game():
 
 @app.route('/user/<int:id>', methods=['GET', 'POST'])
 def user_page(id):
-    return render_template('userpage.html', title=load_user(id).name, userid=id)
+    db_sess = db_session.create_session()
+    all_posts = db_sess.query(UserPost).filter(UserPost.user_id == id).all()
+    return render_template('userpage.html', title=load_user(id).name, userid=id, posts=all_posts)
 
 
 @app.route('/user/<int:id>/create_post', methods=['GET', 'POST'])
