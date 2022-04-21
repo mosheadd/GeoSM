@@ -188,7 +188,7 @@ def create_userpost(id):
 
 
 @app.route('/user/<int:id>/post/<int:postid>', methods=['GET', 'POST'])
-def user_ppost(id, postid):
+def user_post(id, postid):
     db_sess = db_session.create_session()
     post = db_sess.query(UserPost).filter(UserPost.id == postid and UserPost.user_id == id).first()
     return render_template('userpost.html', title=load_user(id).name, userid=id, post=post)
