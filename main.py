@@ -53,6 +53,12 @@ class CreatePostForm(FlaskForm):
     submit = SubmitField('Опубликовать')
 
 
+class CreateUserPostForm(FlaskForm):
+    title = StringField('Заголовок', validators=[DataRequired()])
+    text = TextAreaField("Текст")
+    submit = SubmitField('Опубликовать')
+
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
@@ -159,6 +165,24 @@ def start_game():
 @app.route('/user/<int:id>', methods=['GET', 'POST'])
 def user_page(id):
     return render_template('userpage.html', title=load_user(id).name, userid=id)
+
+
+@app.route('/user/<int:id>/create_post', methods=['GET', 'POST'])
+def create_userpost(id):
+    form = CreateUserPostForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        if not form.title:
+            return render_template('createuserpost.html', form=form, message="Заголовок обязателен.")
+        userpost = UserPost(
+            title=form.title.data,
+            text=form.text.data,
+            user_id=id
+        )
+        db_sess.add(userpost)
+        db_sess.commit()
+        return redirect('/user/' + str(id))
+    return render_template('createuserpost.html',  form=form)
 
 
 @app.route('/logout')
@@ -280,14 +304,13 @@ def group_page_sorted(id):
 def create_group_post(id):
     db_sess = db_session.create_session()
     group = db_sess.query(Group).filter(Group.id == id).first()
-    creator = db_sess.query(User).filter(User.id == current_user.id).first()
     form = CreatePostForm()
     if form.validate_on_submit():
         post = Post(
             title=form.title.data,
             text=form.text.data,
             anonymously=form.anonymously.data,
-            creator=creator.id,
+            creator=current_user.id,
             group_id=id
         )
         db_sess.add(post)
