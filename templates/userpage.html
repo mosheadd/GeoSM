@@ -8,7 +8,7 @@
 <div class="allnewsdiv">
 {% for item in posts%}
     <div class="onenewsdiv">
-        <h2>{{item.title}}</h2>
+        <a href="/user/{{current_user.id}}/post/{{item.id}}"><h2>{{item.title}}</h2></a>
         <div>
             <p>{{item.text}}</p>
         </div>
