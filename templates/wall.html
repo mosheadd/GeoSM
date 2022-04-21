@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Стена</h1>
+<div class="allnewsdiv">
+    <form action="{{ url_for('wall_sorted')}}" method="post">
+        <select name="sort_select">
+            <option>По дате: сначала новые.</option>
+            <option>По дате: сначала старые.</option>
+        </select>
+        <input type="submit" value="Принять">
+    </form>
+    {% if select_data == 'По дате: сначала новые.' %}
+    {% for item in posts[::-1]%}
+    <div class="onenewsdiv">
+        <h2>{{item.title}}</h2>
+        <div>
+            <p>{{item.text}}</p>
+        </div>
+        <div>
+            <p>Опубликовано - {{item.date}}</p>
+            {% if not item.anonymously %}
+            <a href=/user/{{item.creator}}>Автор</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    {% for item in posts%}
+    <div class="onenewsdiv">
+        <h2>{{item.title}}</h2>
+        <div>
+            <p>{{item.text}}</p>
+        </div>
+        <div>
+            <p>Опубликовано - {{item.date}}</p>
+            {% if not item.anonymously %}
+            <a href=/user/{{item.creator}}>Автор</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

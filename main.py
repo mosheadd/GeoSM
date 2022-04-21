@@ -74,6 +74,34 @@ def main_page_sorted():
                            select_data=request.form['sort_select'])
 
 
+@app.route('/wall', methods=['GET', 'POST'])
+def wall():
+    db_sess = db_session.create_session()
+    all_groups = db_sess.query(Group).all()
+    groups_ids = []
+    for i in all_groups:
+        subs_ids = i.subscribers_ids.split(",")
+        if str(current_user.id) in subs_ids:
+            groups_ids.append(i.id)
+    posts = db_sess.query(Post).filter(Post.group_id.in_(tuple(groups_ids))).all()
+    return render_template('wall.html', posts=posts, title="Главная страница",
+                           select_data='По дате: сначала новые.')
+
+
+@app.route('/wall/sorted', methods=['GET', 'POST'])
+def wall_sorted():
+    db_sess = db_session.create_session()
+    all_groups = db_sess.query(Group)
+    groups_ids = []
+    for i in all_groups:
+        subs_ids = i.subscribers_ids.split(",")
+        if str(current_user.id) in subs_ids:
+            groups_ids.append(i.id)
+    posts = db_sess.query(Post).filter(Post.group_id.in_(tuple(groups_ids))).all()
+    return render_template('wall.html', posts=posts, title="Главная страница",
+                           select_data=request.form['sort_select'])
+
+
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
     form = SignInForm()
