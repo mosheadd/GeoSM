@@ -7,7 +7,7 @@
     <br>
     <p>
     {% if current_user.id == post.user_id %}
-        <a class="btndefault" href="/user/{{current_user.id}}/delete_post/{{post.id}}">Удалить запись.</a>
+        <a class="button is-large is-danger" href="/user/{{current_user.id}}/delete_post/{{post.id}}">Удалить запись.</a>
     {% endif %}
     </p>
 </div>

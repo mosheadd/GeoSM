@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% if group.everyone_can_post and is_sub or is_admin%}
-<a class="button is-large topleft" href="/groups/{{group.id}}/create_post">Создать пост</a>
+<a class="button is-large topleft btntop" href="/groups/{{group.id}}/create_post">Создать пост</a>
 {% endif %}
 <h1>{{group.name}}</h1>
 <div class="allnewsdiv">
@@ -46,7 +46,7 @@
 </div>
 {% if not is_admin %}
     {% if is_sub%}
-        <a class="button is-large topright" href="/groups/{{group.id}}/unsubscribe">Отписаться.</a>
+        <a class="button is-large is-danger topright" href="/groups/{{group.id}}/unsubscribe">Отписаться.</a>
     {% else %}
         <a class="button is-large topright" href="/groups/{{group.id}}/subscribe">Подписаться.</a>
     {% endif %}

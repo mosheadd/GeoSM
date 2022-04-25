@@ -12,15 +12,15 @@
       <nav>
           <p>
               {% if current_user.is_authenticated %}
-              <a class="button is-large wall" href="/wall">Стена</a>
-              <a class="button is-large mainpage" href="/">Новости</a>
-              <a class="button is-large account" href=/user/{{current_user.id}}>Аккаунт</a>
-              <a class="button is-large groups" href="/groups">Группы</a>
-              <a class="button is-large start" href="/game">Начать игру</a>
-              <a class="button is-large logout" href="/logout">Выйти</a>
+              <a class="button is-large wall btntop" href="/wall">Стена</a>
+              <a class="button is-large mainpage btntop" href="/">Новости</a>
+              <a class="button is-large account btntop" href=/user/{{current_user.id}}>Аккаунт</a>
+              <a class="button is-large groups btntop" href="/groups">Группы</a>
+              <a class="button is-large is-info start btntop" href="/game">Начать игру</a>
+              <a class="button is-large is-danger logout btntop" href="/logout">Выйти</a>
               {% else %}
-              <a class="button is-large signup" href="/register">Зарегистрироваться</a>
-              <a class="button is-large signin" href="/sign_in">Войти</a>
+              <a class="button is-large signup btntop" href="/register">Зарегистрироваться</a>
+              <a class="button is-large signin btntop" href="/sign_in">Войти</a>
               {% endif %}
           </p>
       </nav>

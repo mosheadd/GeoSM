@@ -7,7 +7,7 @@
     <br>
     <p>
     {% if current_user.is_site_admin %}
-        <a class="btndefault" href="/delete_news/{{sitenews.id}}">Удалить новость.</a>
+        <a class="button is-large is-danger" href="/delete_news/{{sitenews.id}}">Удалить новость.</a>
     {% endif %}
     </p>
 </div>
