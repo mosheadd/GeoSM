@@ -1,120 +1,50 @@
 .signup{
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 630px;
 }
 .signin{
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 1030px;
 }
 .logout
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	right : 150px;
 }
 .mainpage
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 500px;
 }
 .wall
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 330px;
 }
 .account
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 710px;
 }
 .groups
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 918.5px;
 }
 .topleft
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 50px;
 }
 .topright
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	right : 50px;
 	top : 115px;
 }
 .managing
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 650px;
 	top : 125px;
 }
@@ -166,13 +96,6 @@ h1 {
 
 .start
 {
-	color : red;
-	font-size : 250%;
-	padding: 20px 30px;
-	margin: 10px 20px;
-	border-radius: 10px;
 	position: absolute;
-	background-image: linear-gradient(to right, #9EEFE1 0%, #9EEFE1 100%);
-	background-size: 200% auto;
 	left : 1110px;
 }
