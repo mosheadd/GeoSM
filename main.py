@@ -146,7 +146,7 @@ def register():
     return render_template('signing_up.html', form=form)
 
 
-@app.route('/game>', methods=['GET', 'POST'])
+@app.route('/game', methods=['GET', 'POST'])
 def start_game():
     db_sess = db_session.create_session()
     user = db_sess.query(Score).filter(Score.user_id == current_user.id)
