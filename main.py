@@ -163,7 +163,7 @@ def start_game():
         diff = snace_odj.start_screen(snace_odj.RES, snace_odj.RES)
         if diff == 1 or diff == 2 or diff == 3:
             while True:
-                score1 = snace_odj.game(diff, user.highest_score)
+                score1 = snace_odj.game(diff, user.score)
                 break
         break
     if score1 > int(user.score()):
