@@ -161,7 +161,7 @@ def start_game():
     while True:
         snace_odj = snace.SnakeGame()
 
-        diff = snace_odj.start_screen(snace.RES, snace.RES)
+        diff = snace_odj.start_screen(snace_odj.RES, snace_odj.RES)
         if diff == 1 or diff == 2 or diff == 3:
             while True:
                 score1 = snace_odj.game(diff, user.highest_score)
