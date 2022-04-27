@@ -5,6 +5,7 @@ from databases.users import User
 from databases.groups import Group
 from databases.posts import Post
 from databases.userposts import UserPost
+from databases.score import Score
 from databases import db_session
 from wtforms import PasswordField, SubmitField, StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
@@ -145,10 +146,18 @@ def register():
     return render_template('signing_up.html', form=form)
 
 
-@app.route('/game', methods=['GET', 'POST'])
+@app.route('/game>', methods=['GET', 'POST'])
 def start_game():
     db_sess = db_session.create_session()
-    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    user = db_sess.query(Score).filter(Score.user_id == current_user.id)
+    if not user:
+        user = Score(
+            user_id=current_user.id,
+            game="SnakeGame",
+            score="0"
+        )
+        db_sess.add(user)
+        db_sess.commit()
     while True:
         diff = snace.start_screen(snace.RES, snace.RES)
         if diff == 1 or diff == 2 or diff == 3:
@@ -156,8 +165,8 @@ def start_game():
                 score1 = snace.game(diff, user.highest_score)
                 break
         break
-    if score1 > user.highest_score:
-        user.highest_score = score1
+    if score1 > int(user.score()):
+        user.score = str(score1)
         db_sess.commit()
     return redirect('/')
 
@@ -195,6 +204,8 @@ def user_post(id, postid):
 
 @app.route('/user/<int:id>/records', methods=['GET', 'POST'])
 def user_records(id):
+    db_sess = db_session.create_session()
+    all_scores = db_sess.query(Score).filter(Score.user_id == id)
     return render_template('userecords.html', userid=id)
 
 
