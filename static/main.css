@@ -103,6 +103,22 @@
 	left : 490px;
 	top : 75px;
 }
+.snake_game
+{
+	color : red;
+	position: absolute;
+	top : 215px;
+	left : 790px;
+	font-size : 2.0em;
+}
+.snake_game_bestrecord
+{
+	color : red;
+	position: absolute;
+	top : 285px;
+	left : 790px;
+	font-size : 1.75em;
+}
 h1 {
 	color : red;
 	position: absolute;
