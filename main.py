@@ -149,7 +149,7 @@ def register():
 @app.route('/game', methods=['GET', 'POST'])
 def start_game():
     db_sess = db_session.create_session()
-    user = db_sess.query(Score).filter(Score.user_id == current_user.id)
+    user = db_sess.query(Score).filter_by(user_id=current_user.id).first()
     if not user:
         user = Score(
             user_id=current_user.id,
@@ -158,6 +158,7 @@ def start_game():
         )
         db_sess.add(user)
         db_sess.commit()
+        user = db_sess.query(Score).filter(Score.user_id == current_user.id).first()
     while True:
         snace_odj = snace.SnakeGame()
         diff = snace_odj.start_screen(snace_odj.RES, snace_odj.RES)
@@ -166,7 +167,7 @@ def start_game():
                 score1 = snace_odj.game(diff, user.score)
                 break
         break
-    if score1 > int(user.score()):
+    if score1 > int(user.score):
         user.score = str(score1)
         db_sess.commit()
     return redirect('/')
