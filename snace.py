@@ -13,7 +13,7 @@ class SnakeGame:
         self.apple = randrange(0, self.RES, self.SIZE), randrange(0, self.RES, self.SIZE)
         self.dirs = {'W': True, 'A': True, 'S': True, 'D': True}
         self.lenght = 1
-        self.snake = [(x, y)]
+        self.snake = [(self.x, self.y)]
         self.dx, self.dy = 0, 0
         self.score = 0
         self.fps = 8
