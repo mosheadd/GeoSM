@@ -4,7 +4,7 @@ import sys
 import os
 
 
-class SnakeGame():
+class SnakeGame:
     def __init__(self):
         self.RES = 760
         self.SIZE = 40

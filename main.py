@@ -159,10 +159,12 @@ def start_game():
         db_sess.add(user)
         db_sess.commit()
     while True:
-        diff = snace.start_screen(snace.RES, snace.RES)
+        snace_odj = snace.SnakeGame()
+
+        diff = snace_odj.start_screen(snace.RES, snace.RES)
         if diff == 1 or diff == 2 or diff == 3:
             while True:
-                score1 = snace.game(diff, user.highest_score)
+                score1 = snace_odj.game(diff, user.highest_score)
                 break
         break
     if score1 > int(user.score()):
