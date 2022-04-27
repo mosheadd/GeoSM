@@ -193,6 +193,10 @@ def user_post(id, postid):
     post = db_sess.query(UserPost).filter(UserPost.id == postid and UserPost.user_id == id).first()
     return render_template('userpost.html', title=load_user(id).name, userid=id, post=post)
 
+@app.route('/user/<int:id>/records', methods=['GET', 'POST'])
+def user_records(id):
+    return render_template('userecords.html', userid=id)
+
 
 @app.route('/logout')
 def logout():

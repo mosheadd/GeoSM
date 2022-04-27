@@ -5,10 +5,11 @@
 {% if current_user.id == userid %}
 <a class="button is-large topleft btntop" href="/user/{{current_user.id}}/create_post">Создать пост</a>
 {% endif %}
+<a class="button is-large records" href="/user/{{userid}}/records">Рекорды</a>
 <div class="allnewsdiv">
 {% for item in posts%}
     <div class="onenewsdiv">
-        <a href="/user/{{current_user.id}}/post/{{item.id}}"><h2>{{item.title}}</h2></a>
+        <a href="/user/{{user_id}}/post/{{item.id}}"><h2>{{item.title}}</h2></a>
         <div>
             <p>{{item.text}}</p>
         </div>
