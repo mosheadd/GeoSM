@@ -306,9 +306,18 @@ def group_page_sorted(id):
     db_sess = db_session.create_session()
     group = db_sess.query(Group).filter(Group.id == id).first()
     all_posts = db_sess.query(Post).filter(Post.group_id == id)
-    print(request.form['sort_select'])
+    is_sub = ''
+    is_admin = ''
+    sids = [[si.id, si.subscribers_ids.split(',')] for si in db_sess.query(Group).all()]
+    groups_ids = [sid[0] for sid in sids if str(current_user.id) in sid[1]]
+    if group.id in groups_ids:
+        is_sub = '1'
+    aids = [[ai.id, ai.admins_ids.split(',')] for ai in db_sess.query(Group).all()]
+    groups_ids = [aid[0] for aid in aids if str(current_user.id) in aid[1]]
+    if group.id in groups_ids:
+        is_admin = '1'
     return render_template('groupage.html', title=group.name, group=group, allgroups=all_posts,
-                           select_data=request.form['sort_select'])
+                           select_data=request.form['sort_select'], is_sub=is_sub, is_admin=is_admin)
 
 
 @app.route('/groups/<int:id>/create_post', methods=['GET', 'POST'])
