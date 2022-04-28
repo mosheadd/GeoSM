@@ -8,14 +8,16 @@
     {{sitenews.content}}
     <br>
     <br>
+    {% if current_user.is_authenticated %}
     <p class="large_text">Добавить комментарий.</p>
     <br>
-    <form action="{{ url_for('add_comment', id=news_id, type_='news')}}" method="post">
+    <form action="{{ url_for('add_comment', id=news_id, type_='news', uog=0)}}" method="post">
         <p><textarea rows="5" cols="65" name="text"></textarea></p>
         <p><input type="submit" value="Отправить"></p>
         {{message}}
     </form>
     <br>
+    {% endif %}
     {% for comment in comments[::-1]%}
     <div class="onenewsdiv">
         <h2><a href=/user/{{comment.user_id}}>Пользователь</a> пишет:</h2>

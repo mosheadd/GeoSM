@@ -281,30 +281,40 @@ def add_news():
 
 @app.route('/news/<int:id>', methods=['GET', 'POST'])
 def news_page(id, message=''):
+    print(1)
     db_sess = db_session.create_session()
     news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
     all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%")).all()
-    this_news_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == id]
+    this_news_comments = [i for i in all_comments
+                          if int(i.type_id[len(i.type_id) - i.type_id[::-1].index(':'):]) == id]
     return render_template('newspage.html', title=news.title, sitenews=news, news_id=id, comments=this_news_comments,
                            message=message)
 
 
-@app.route('/add_comment/<type_>/<int:id>', methods=['GET', 'POST'])
-def add_comment(type_, id):
+@app.route('/add_comment/<type_>/<int:id>/<int:uog>', methods=['GET', 'POST'])
+def add_comment(type_, id, uog):
     if check_only_spaces(request.form["text"]):
         return redirect('/' + type_ + '/' + str(id))
     db_sess = db_session.create_session()
-    new_comment = Comment(
-        user_id=current_user.id,
-        type_id=type_ + ":" + str(id),
-        text=request.form["text"]
-    )
+    if uog == -1:
+        new_comment = Comment(
+            user_id=current_user.id,
+            type_id=type_ + ":" + str(id),
+            text=request.form["text"]
+        )
+    else:
+        new_comment = Comment(
+            user_id=current_user.id,
+            type_id=type_ + ":" + str(uog) + ":" + str(id),
+            text=request.form["text"]
+        )
     db_sess.add(new_comment)
     db_sess.commit()
     if type_ == 'news':
         return redirect('/' + type_ + '/' + str(id))
     elif type_ == 'user':
-        return redirect('/user/' + str(current_user.id) + '/' + type_ + '/' + str(id))
+        return redirect('/user/' + str(current_user.id) + '/post/' + str(id))
+    return redirect('/group/' + str(id) + '/' + type_ + '/' + str(new_comment))
 
 
 @app.route('/delete_news/<int:id>', methods=['GET', 'POST'])
