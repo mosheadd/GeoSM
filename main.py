@@ -281,7 +281,6 @@ def add_news():
 
 @app.route('/news/<int:id>', methods=['GET', 'POST'])
 def news_page(id, message=''):
-    print(1)
     db_sess = db_session.create_session()
     news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
     all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%")).all()
@@ -311,10 +310,10 @@ def add_comment(type_, id, uog):
     db_sess.add(new_comment)
     db_sess.commit()
     if type_ == 'news':
-        return redirect('/' + type_ + '/' + str(id))
+        return redirect('/news/' + str(id))
     elif type_ == 'user':
-        return redirect('/user/' + str(current_user.id) + '/post/' + str(id))
-    return redirect('/group/' + str(id) + '/' + type_ + '/' + str(new_comment))
+        return redirect('/user/' + str(uog) + '/post/' + str(id))
+    return redirect('/group/' + str(uog) + '/post/' + str(id))
 
 
 @app.route('/delete_news/<int:id>', methods=['GET', 'POST'])
