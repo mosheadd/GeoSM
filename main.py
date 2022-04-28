@@ -53,6 +53,7 @@ class CreatePostForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     text = TextAreaField("Текст")
     anonymously = BooleanField()
+    comments_ability = BooleanField()
     submit = SubmitField('Опубликовать')
 
 
@@ -218,7 +219,7 @@ def create_userpost(id):
 def user_post(id, postid):
     db_sess = db_session.create_session()
     post = db_sess.query(UserPost).filter(UserPost.id == postid and UserPost.user_id == id).first()
-    all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
+    all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%user%")).all()
     this_post_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == postid
                           and int(i.user_id) == id]
     return render_template('userpost.html', title=load_user(id).name, user_id=id, post=post, comments=this_post_comments)
@@ -416,7 +417,8 @@ def create_group_post(id):
             text=form.text.data,
             anonymously=form.anonymously.data,
             creator=current_user.id,
-            group_id=id
+            group_id=id,
+            comments_available=form.comments_ability.data
         )
         db_sess.add(post)
         db_sess.commit()
@@ -446,6 +448,22 @@ def group_unsubscribing(id):
     group.subscribers_ids = new_sids_str
     db_sess.commit()
     return redirect('/groups/' + str(group.id))
+
+
+@app.route('/group/<int:id>/post/<int:postid>', methods=['GET', 'POST'])
+def group_post(id, postid):
+    db_sess = db_session.create_session()
+    post = db_sess.query(Post).filter(Post.id == postid).first()
+    group = db_sess.query(Group).filter(Group.id == id).first()
+    all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
+    this_post_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == postid
+                          and int(i.user_id) == id]
+    aids = [[ai.id, ai.admins_ids.split(',')] for ai in db_sess.query(Group).all()]
+    groups_ids = [aid[0] for aid in aids if str(current_user.id) in aid[1]]
+    is_admin = '0'
+    if id in groups_ids:
+        is_admin = '1'
+    return render_template('groupost.html', post=post, group=group, is_admin=is_admin, comments=this_post_comments)
 
 
 def main():

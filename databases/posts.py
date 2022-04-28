@@ -13,3 +13,4 @@ class Post(SqlAlchemyBase):
     creator = sqlalchemy.Column(sqlalchemy.Integer)
     date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     group_id = sqlalchemy.Column(sqlalchemy.Integer)
+    comments_available = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)

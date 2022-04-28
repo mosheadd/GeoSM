@@ -15,7 +15,7 @@
     {% if select_data == 'По дате: сначала старые.' %}
     {% for item in allgroups%}
     <div class="onenewsdiv">
-        <h2>{{item.title}}</h2>
+        <h2><a href="/group/{{group.id}}/post/{{item.id}}"> {{item.title}}</a></h2>
         <div>
             <p>{{item.text}}</p>
         </div>
@@ -30,7 +30,7 @@
     {% else %}
     {% for item in allgroups[::-1]%}
     <div class="onenewsdiv">
-        <h2>{{item.title}}</h2>
+        <h2><a href="/group/{{group.id}}/post/{{item.id}}"> {{item.title}}</a></h2>
         <div>
             <p>{{item.text}}</p>
         </div>

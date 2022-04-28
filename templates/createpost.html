@@ -28,6 +28,8 @@
         {% endfor %}
     </p>
     <p>Опубликовать анонимно {{ form.anonymously(type="checkbox") }}</p>
+    <br>
+    <p>Комментарии не доступны {{ form.comments_ability(type="checkbox") }}</p>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>
