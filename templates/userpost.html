@@ -1,14 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>{{post.title}}</h1>
+<p>
+    {% if current_user.id == post.user_id %}
+        <a class="button is-large is-danger topleft btntop" href="/user/{{current_user.id}}/delete_post/{{post.id}}">Удалить запись.</a>
+    {% endif %}
+</p>
 <div class="newsdesc">
     {{post.text}}
     <br>
     <br>
-    <p>
-    {% if current_user.id == post.user_id %}
-        <a class="button is-large is-danger" href="/user/{{current_user.id}}/delete_post/{{post.id}}">Удалить запись.</a>
+    {% if post.comments_available == 0 %}
+    <br>
+    <br>
+    <p class="large_text">Добавить комментарий.</p>
+    <br>
+    <form action="{{ url_for('add_comment', id=user_id, type_='post')}}" method="post">
+        <p><textarea rows="5" cols="65" name="text"></textarea></p>
+        <p><input type="submit" value="Отправить"></p>
+        {{message}}
+    </form>
+    <br>
+    {% for comment in comments[::-1]%}
+    <div class="onenewsdiv">
+        <h2><a href=/user/{{comment.user_id}}>Пользователь</a> пишет</h2>
+        <div>
+            <p>{{comment.text}}</p>
+        </div>
+        <div>
+            <p>Опубликовано - {{comment.date}}</p>
+        </div>
+    </div>
+    {% endfor %}
     {% endif %}
-    </p>
 </div>
 {% endblock %}

@@ -27,6 +27,7 @@
             </p>
         {% endfor %}
     </p>
+    <p>Комментарии не доступны {{ form.comments_ability(type="checkbox") }}</p>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>

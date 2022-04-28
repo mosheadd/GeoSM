@@ -10,4 +10,5 @@ class UserPost(SqlAlchemyBase):
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     text = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    comments_available = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)

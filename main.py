@@ -59,6 +59,7 @@ class CreatePostForm(FlaskForm):
 class CreateUserPostForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     text = TextAreaField("Текст")
+    comments_ability = BooleanField()
     submit = SubmitField('Опубликовать')
 
 
@@ -191,7 +192,7 @@ def start_game():
 def user_page(id):
     db_sess = db_session.create_session()
     all_posts = db_sess.query(UserPost).filter(UserPost.user_id == id).all()
-    return render_template('userpage.html', title=load_user(id).name, userid=id, posts=all_posts)
+    return render_template('userpage.html', title=load_user(id).name, user_id=id, posts=all_posts)
 
 
 @app.route('/user/<int:id>/create_post', methods=['GET', 'POST'])
@@ -204,7 +205,8 @@ def create_userpost(id):
         userpost = UserPost(
             title=form.title.data,
             text=form.text.data,
-            user_id=id
+            user_id=id,
+            comments_available=form.comments_ability.data
         )
         db_sess.add(userpost)
         db_sess.commit()
@@ -216,7 +218,9 @@ def create_userpost(id):
 def user_post(id, postid):
     db_sess = db_session.create_session()
     post = db_sess.query(UserPost).filter(UserPost.id == postid and UserPost.user_id == id).first()
-    return render_template('userpost.html', title=load_user(id).name, userid=id, post=post)
+    all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
+    this_user_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == id]
+    return render_template('userpost.html', title=load_user(id).name, user_id=id, post=post, comments=this_user_comments)
 
 
 @app.route('/user/<int:id>/records', methods=['GET', 'POST'])
