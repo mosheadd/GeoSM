@@ -119,6 +119,14 @@
 	left : 790px;
 	font-size : 1.75em;
 }
+.large_text
+{
+	font-size : 2.5em;
+}
+textarea
+{
+	resize : none;
+}
 body {
   font-family: roboto, sans-serif;
   font-size: 15px;

@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>{{sitenews.title}}</h1>
+{% if current_user.is_site_admin %}
+<a class="button is-large is-danger topleft btntop" href="/delete_news/{{sitenews.id}}">Удалить новость.</a>
+{% endif %}
 <div class="newsdesc">
     {{sitenews.content}}
     <br>
     <br>
-    <p>
-    {% if current_user.is_site_admin %}
-        <a class="button is-large is-danger" href="/delete_news/{{sitenews.id}}">Удалить новость.</a>
-    {% endif %}
-    </p>
+    <p class="large_text">Добавить комментарий.</p>
+    <br>
+    <p><textarea rows="5" cols="65" name="text"></textarea></p>
+    <p><input type="submit" value="Отправить"></p>
 </div>
 {% endblock %}

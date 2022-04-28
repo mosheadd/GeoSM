@@ -3,8 +3,8 @@ import datetime
 from .db_session import SqlAlchemyBase
 
 
-class Score(SqlAlchemyBase):
-    __tablename__ = "scores"
+class Comment(SqlAlchemyBase):
+    __tablename__ = "comments"
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)

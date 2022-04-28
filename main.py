@@ -6,6 +6,7 @@ from databases.groups import Group
 from databases.posts import Post
 from databases.userposts import UserPost
 from databases.score import Score
+from databases.commentaries import Comment
 from databases import db_session
 from wtforms import PasswordField, SubmitField, StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
@@ -253,6 +254,7 @@ def add_news():
 def news_page(id):
     db_sess = db_session.create_session()
     news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
+    all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%"))
     return render_template('newspage.html', title=news.title, sitenews=news)
 
 
