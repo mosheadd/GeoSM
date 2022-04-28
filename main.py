@@ -465,8 +465,9 @@ def group_post(id, postid):
     post = db_sess.query(Post).filter(Post.id == postid).first()
     group = db_sess.query(Group).filter(Group.id == id).first()
     all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
-    this_post_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == postid
-                          and int(i.user_id) == id]
+    this_post_comments = [i for i in all_comments
+                          if int(i.type_id[i.type_id.index(':'): len(i.type_id) - int(i.type_id[::-1].index(':'))])
+                          == postid and int(i.user_id) == id]
     aids = [[ai.id, ai.admins_ids.split(',')] for ai in db_sess.query(Group).all()]
     groups_ids = [aid[0] for aid in aids if str(current_user.id) in aid[1]]
     is_admin = '0'
