@@ -90,70 +90,70 @@ class SnakeGame:
             self.clock.tick(self.fps)
 
     def game(self, qwer, hs):
-        self.sc.blit(self.img, (0, 0))
-        # drawing snake
-        if qwer == 1:
-            col = 'green'
-        if qwer == 2:
-            col = 'blue'
-        if qwer == 3:
-            col = 'yellow'
-        [(pygame.draw.rect(self.sc, pygame.Color(col), (i, j, self.SIZE - 2, self.SIZE - 2))) for i, j in self.snake]
-        pygame.draw.rect(self.sc, pygame.Color('red'), (*self.apple, self.SIZE, self.SIZE))
-        # show score
-        render_score = self.font_score.render(f'Score: {self.score}', 1, pygame.Color('orange'))
-        self.sc.blit(render_score, (5, 5))
-        # snake movement
-        self.x += self.dx * self.SIZE
-        self.y += self.dy * self.SIZE
-        self.snake.append((self.x, self.y))
-        snake = self.snake[-self.lenght:]
-        # eating apple
-        if snake[-1] == self.apple:
-            apple = randrange(0, self.RES, self.SIZE), randrange(0, self.RES, self.SIZE)
-            self.lenght += 1
-            self.score += 1
-            self.fps += 1
-        # game over
-        if self.x < 0 or self.x > self.RES - self.SIZE or self.y < 0 or self.y > self.RES - self.SIZE or len(
-                snake) != len(set(self.snake)):
-            while True:
-                render_end = self.font_end.render('GAME OVER', 1, pygame.Color('red'))
-                render_score = self.font_score.render(f'Score: {str(self.score)}', 1, pygame.Color('blue'))
-                render_hs = self.font_hs.render(f'Hight score: {str(hs)}', 1, pygame.Color('blue'))
-                self.sc.blit(render_end, (self.RES // 2 - 200, self.RES // 3))
-                self.sc.blit(render_score, (self.RES // 2 - 200, self.RES // 4))
-                self.sc.blit(render_hs, (self.RES // 2 + 50, self.RES // 4))
-                pygame.display.flip()
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        exit()
+        while True:
+            self.sc.blit(self.img, (0, 0))
+            # drawing snake
+            if qwer == 1:
+                col = 'green'
+            if qwer == 2:
+                col = 'blue'
+            if qwer == 3:
+                col = 'yellow'
+            self.snake.append((self.x, self.y))
+            snake = self.snake[-self.lenght:]
+            [(pygame.draw.rect(self.sc, pygame.Color(col), (i, j, self.SIZE - 2, self.SIZE - 2))) for i, j in snake]
+            pygame.draw.rect(self.sc, pygame.Color('red'), (*self.apple, self.SIZE, self.SIZE))
+            # show score
+            render_score = self.font_score.render(f'Score: {self.score}', 1, pygame.Color('orange'))
+            self.sc.blit(render_score, (5, 5))
+            # snake movement
+            self.x += self.dx * self.SIZE
+            self.y += self.dy * self.SIZE
+            print(snake)
+            # eating apple
+            if snake[-1] == self.apple:
+                self.apple = randrange(0, self.RES, self.SIZE), randrange(0, self.RES, self.SIZE)
+                self.lenght += 1
+                self.score += 1
+                # self.fps += 1
+            # game over
+            if self.x < 0 or self.x > self.RES - self.SIZE or self.y < 0 or self.y > self.RES - self.SIZE \
+                    or len(snake) != len(set(snake)):
+                while True:
+                    render_end = self.font_end.render('GAME OVER', 1, pygame.Color('red'))
+                    render_score = self.font_score.render(f'Score: {str(self.score)}', 1, pygame.Color('blue'))
+                    render_hs = self.font_hs.render(f'Hight score: {str(hs)}', 1, pygame.Color('blue'))
+                    self.sc.blit(render_end, (self.RES // 2 - 200, self.RES // 3))
+                    self.sc.blit(render_score, (self.RES // 2 - 200, self.RES // 4))
+                    self.sc.blit(render_hs, (self.RES // 2 + 50, self.RES // 4))
+                    pygame.display.flip()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            return self.score
 
-        pygame.display.flip()
-        self.clock.tick(self.fps)
+            pygame.display.flip()
+            self.clock.tick(self.fps)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return self.score
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
+            # control
+            key = pygame.key.get_pressed()
+            if key[pygame.K_w] and self.dirs['W']:
+                self.dx, self.dy = 0, -1
+                self.dirs = {'W': True, 'A': True, 'S': False, 'D': True}
 
-        # control
-        key = pygame.key.get_pressed()
-        if key[pygame.K_w] and self.dirs['W']:
-            self.dx, self.dy = 0, -1
-            self.dirs = {'W': True, 'A': True, 'S': False, 'D': True}
+            if key[pygame.K_s] and self.dirs['S']:
+                self.dx, self.dy = 0, 1
+                self.dirs = {'W': False, 'A': True, 'S': True, 'D': True}
 
-        if key[pygame.K_s] and self.dirs['S']:
-            self.dx, self.dy = 0, 1
-            self.dirs = {'W': False, 'A': True, 'S': True, 'D': True}
+            if key[pygame.K_a] and self.dirs['A']:
+                self.dx, self.dy = -1, 0
+                self.dirs = {'W': True, 'A': True, 'S': True, 'D': False}
 
-        if key[pygame.K_a] and self.dirs['A']:
-            self.dx, self.dy = -1, 0
-            self.dirs = {'W': True, 'A': True, 'S': True, 'D': False}
-
-        if key[pygame.K_d] and self.dirs['D']:
-            self.dx, self.dy = 1, 0
-            self.dirs = {'W': True, 'A': False, 'S': True, 'D': True}
-        return self.score
+            if key[pygame.K_d] and self.dirs['D']:
+                self.dx, self.dy = 1, 0
+                self.dirs = {'W': True, 'A': False, 'S': True, 'D': True}
 
     def starting_game(self):
         while True:

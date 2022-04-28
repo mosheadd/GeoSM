@@ -11,6 +11,7 @@ from wtforms import PasswordField, SubmitField, StringField, TextAreaField, Bool
 from wtforms.validators import DataRequired
 from flask_login import LoginManager, current_user, login_user, logout_user
 import snace
+import datetime
 
 
 app = Flask(__name__)
@@ -167,7 +168,7 @@ def start_game():
                 score1 = snace_odj.game(diff, user.score)
                 break
         break
-    user.score += str(score1) + ","
+    user.score += str(score1) + "(" + str(datetime.datetime.now) + ")" + ","
     db_sess.commit()
     return redirect('/')
 
@@ -210,7 +211,8 @@ def user_records(id):
     scores = db_sess.query(Score).filter_by(user_id=id).first()
     if scores:
         all_scores = scores.score.split(',')
-        snake_highest_score = max(all_scores)
+        snake_highest_score = max([i[:i.index("(") - 1] for i in all_scores])
+        all_scores = [[i[:i.index("(") - 1], i[i.index("("):i.index(")") - 1]] for i in all_scores]
     else:
         all_scores = []
         snake_highest_score = 0
