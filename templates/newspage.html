@@ -18,7 +18,7 @@
     <br>
     {% for comment in comments[::-1]%}
     <div class="onenewsdiv">
-        <h2><a href=/user/{{comment.user_id}}>Пользователь</a> пишет</h2>
+        <h2><a href=/user/{{comment.user_id}}>Пользователь</a> пишет:</h2>
         <div>
             <p>{{comment.text}}</p>
         </div>

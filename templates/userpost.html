@@ -15,7 +15,7 @@
     <br>
     <p class="large_text">Добавить комментарий.</p>
     <br>
-    <form action="{{ url_for('add_comment', id=post.id, type_='post')}}" method="post">
+    <form action="{{ url_for('add_comment', id=post.id, type_='user')}}" method="post">
         <p><textarea rows="5" cols="65" name="text"></textarea></p>
         <p><input type="submit" value="Отправить"></p>
         {{message}}
@@ -23,7 +23,7 @@
     <br>
     {% for comment in comments[::-1]%}
     <div class="onenewsdiv">
-        <h2><a href=/user/{{comment.user_id}}>Пользователь</a> пишет</h2>
+        <h2><a href=/user/{{comment.user_id}}>Пользователь</a> пишет:</h2>
         <div>
             <p>{{comment.text}}</p>
         </div>

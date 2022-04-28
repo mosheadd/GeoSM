@@ -224,6 +224,20 @@ def user_post(id, postid):
     return render_template('userpost.html', title=load_user(id).name, user_id=id, post=post, comments=this_post_comments)
 
 
+@app.route('/user/<int:id>/delete_post/<int:postid>')
+def delete_userpost(id, postid):
+    db_sess = db_session.create_session()
+    delete_this = db_session.sa.delete(UserPost).where(UserPost.id == postid, UserPost.user_id == id)
+    post_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
+    this_post_comments_ids = [i.id for i in post_comments
+                              if int(i.type_id[i.type_id.index(':') + 1:]) == postid]
+    delete_comments = db_session.sa.delete(Comment).where(Comment.id.in_(tuple(this_post_comments_ids)))
+    db_sess.execute(delete_this)
+    db_sess.execute(delete_comments)
+    db_sess.commit()
+    return redirect('/user/' + str(id))
+
+
 @app.route('/user/<int:id>/records', methods=['GET', 'POST'])
 def user_records(id):
     db_sess = db_session.create_session()
@@ -288,7 +302,8 @@ def add_comment(type_, id):
     db_sess.commit()
     if type_ == 'news':
         return redirect('/' + type_ + '/' + str(id))
-    return redirect('/user/' + str(current_user.id) + '/' + type_ + '/' + str(id))
+    elif type_ == 'user':
+        return redirect('/user/' + str(current_user.id) + '/' + type_ + '/' + str(id))
 
 
 @app.route('/delete_news/<int:id>', methods=['GET', 'POST'])
