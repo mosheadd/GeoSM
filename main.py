@@ -62,6 +62,15 @@ class CreateUserPostForm(FlaskForm):
     submit = SubmitField('Опубликовать')
 
 
+def check_only_spaces(string):
+    if not string:
+        return True
+    for i in string:
+        if string != " ":
+            return False
+    return True
+
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
@@ -251,11 +260,27 @@ def add_news():
 
 
 @app.route('/news/<int:id>', methods=['GET', 'POST'])
-def news_page(id):
+def news_page(id, message=''):
     db_sess = db_session.create_session()
     news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
-    all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%"))
-    return render_template('newspage.html', title=news.title, sitenews=news)
+    all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%")).all()
+    return render_template('newspage.html', title=news.title, sitenews=news, news_id=id, comments=all_comments,
+                           message=message)
+
+
+@app.route('/add_comment/<type_>/<int:id>', methods=['GET', 'POST'])
+def add_comment(type_, id):
+    if check_only_spaces(request.form["text"]):
+        return redirect('/' + type_ + '/' + str(id))
+    db_sess = db_session.create_session()
+    new_comment = Comment(
+        user_id=current_user.id,
+        type_id=type_ + ":" + str(id),
+        text=request.form["text"]
+    )
+    db_sess.add(new_comment)
+    db_sess.commit()
+    return redirect('/' + type_ + '/' + str(id))
 
 
 @app.route('/delete_news/<int:id>', methods=['GET', 'POST'])
