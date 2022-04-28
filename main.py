@@ -219,8 +219,9 @@ def user_post(id, postid):
     db_sess = db_session.create_session()
     post = db_sess.query(UserPost).filter(UserPost.id == postid and UserPost.user_id == id).first()
     all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
-    this_user_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == id]
-    return render_template('userpost.html', title=load_user(id).name, user_id=id, post=post, comments=this_user_comments)
+    this_post_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == postid
+                          and int(i.user_id) == id]
+    return render_template('userpost.html', title=load_user(id).name, user_id=id, post=post, comments=this_post_comments)
 
 
 @app.route('/user/<int:id>/records', methods=['GET', 'POST'])
@@ -285,7 +286,9 @@ def add_comment(type_, id):
     )
     db_sess.add(new_comment)
     db_sess.commit()
-    return redirect('/' + type_ + '/' + str(id))
+    if type_ == 'news':
+        return redirect('/' + type_ + '/' + str(id))
+    return redirect('/user/' + str(current_user.id) + '/' + type_ + '/' + str(id))
 
 
 @app.route('/delete_news/<int:id>', methods=['GET', 'POST'])
