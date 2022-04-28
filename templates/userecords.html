@@ -3,5 +3,12 @@
 <h1>Страница пользователя {{title}}!</h1>
 <a class="button is-large records" href="/user/{{userid}}">Назад.</a>
 <h1 class="snake_game">Игра "Змейка"</h1>
-<h2 class="snake_game_bestrecord">Лучший результат: {{highest_score}}</h2>
+<h2 class="snake_game_bestrecord">Лучший результат: {{snake_highest_score}}</h2>
+<div class="info">
+  <input id="info__body_1" class="info__switch" type="checkbox">
+  <label for="info__body_1" class="info__headline">Все рекорды!</label>
+  <div class="info__body">
+    Текст.
+  </div>
+</div>
 {% endblock %}

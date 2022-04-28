@@ -167,9 +167,8 @@ def start_game():
                 score1 = snace_odj.game(diff, user.score)
                 break
         break
-    if score1 > int(user.score):
-        user.score = str(score1)
-        db_sess.commit()
+    user.score += str(score1) + ","
+    db_sess.commit()
     return redirect('/')
 
 
@@ -204,11 +203,18 @@ def user_post(id, postid):
     post = db_sess.query(UserPost).filter(UserPost.id == postid and UserPost.user_id == id).first()
     return render_template('userpost.html', title=load_user(id).name, userid=id, post=post)
 
+
 @app.route('/user/<int:id>/records', methods=['GET', 'POST'])
 def user_records(id):
     db_sess = db_session.create_session()
-    all_scores = db_sess.query(Score).filter(Score.user_id == id)
-    return render_template('userecords.html', userid=id)
+    scores = db_sess.query(Score).filter_by(user_id=id).first()
+    if scores:
+        all_scores = scores.score.split(',')
+        snake_highest_score = max(all_scores)
+    else:
+        all_scores = []
+        snake_highest_score = 0
+    return render_template('userecords.html', userid=id, scores=all_scores, snake_highest_score=snake_highest_score)
 
 
 @app.route('/logout')
