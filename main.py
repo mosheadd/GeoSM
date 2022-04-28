@@ -264,7 +264,8 @@ def news_page(id, message=''):
     db_sess = db_session.create_session()
     news = db_sess.query(SiteNews).filter(SiteNews.id == id).first()
     all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%")).all()
-    return render_template('newspage.html', title=news.title, sitenews=news, news_id=id, comments=all_comments,
+    this_news_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == id]
+    return render_template('newspage.html', title=news.title, sitenews=news, news_id=id, comments=this_news_comments,
                            message=message)
 
 
@@ -287,7 +288,12 @@ def add_comment(type_, id):
 def delete_news(id):
     db_sess = db_session.create_session()
     delete_this = db_session.sa.delete(SiteNews).where(SiteNews.id == id)
+    news_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%")).all()
+    this_news_comments_ids = [i.id for i in news_comments
+                              if int(i.type_id[i.type_id.index(':') + 1:]) == id]
+    delete_comments = db_session.sa.delete(Comment).where(Comment.id.in_(tuple(this_news_comments_ids)))
     db_sess.execute(delete_this)
+    db_sess.execute(delete_comments)
     db_sess.commit()
     return redirect('/')
 
