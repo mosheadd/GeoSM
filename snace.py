@@ -109,7 +109,6 @@ class SnakeGame:
             # snake movement
             self.x += self.dx * self.SIZE
             self.y += self.dy * self.SIZE
-            print(snake)
             # eating apple
             if snake[-1] == self.apple:
                 self.apple = randrange(0, self.RES, self.SIZE), randrange(0, self.RES, self.SIZE)
@@ -122,7 +121,10 @@ class SnakeGame:
                 while True:
                     render_end = self.font_end.render('GAME OVER', 1, pygame.Color('red'))
                     render_score = self.font_score.render(f'Score: {str(self.score)}', 1, pygame.Color('blue'))
-                    render_hs = self.font_hs.render(f'Hight score: {str(hs)}', 1, pygame.Color('blue'))
+                    if hs == 0 or self.score > hs:
+                        render_hs = self.font_hs.render(f'Hight score: {str(self.score)}', 1, pygame.Color('blue'))
+                    else:
+                        render_hs = self.font_hs.render(f'Hight score: {str(hs)}', 1, pygame.Color('blue'))
                     self.sc.blit(render_end, (self.RES // 2 - 200, self.RES // 3))
                     self.sc.blit(render_score, (self.RES // 2 - 200, self.RES // 4))
                     self.sc.blit(render_hs, (self.RES // 2 + 50, self.RES // 4))

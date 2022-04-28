@@ -7,9 +7,9 @@
 <div class="info">
   <input id="info__body_1" class="info__switch" type="checkbox">
   <label for="info__body_1" class="info__headline">Все рекорды!</label>
-  {% for score in all_scores %}
+  {% for score in scores %}
   <div class="info__body">
-    {{score[0]}}
+    {{score[0]}}, {{score[1]}}
   </div>
   {% endfor %}
 </div>

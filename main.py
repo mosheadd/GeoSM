@@ -160,15 +160,19 @@ def start_game():
         db_sess.add(user)
         db_sess.commit()
         user = db_sess.query(Score).filter(Score.user_id == current_user.id).first()
+        max_score = 0
+    else:
+        all_scores = user.score.split(',')
+        max_score = max([int(i[:i.index("(")]) for i in all_scores[:-1]])
     while True:
         snace_odj = snace.SnakeGame()
         diff = snace_odj.start_screen(snace_odj.RES, snace_odj.RES)
         if diff == 1 or diff == 2 or diff == 3:
             while True:
-                score1 = snace_odj.game(diff, user.score)
+                score1 = snace_odj.game(diff, max_score)
                 break
         break
-    user.score += str(score1) + "(" + str(datetime.datetime.now) + ")" + ","
+    user.score += str(score1) + "(" + str(datetime.datetime.now())[:10] + ")" + ","
     db_sess.commit()
     return redirect('/')
 
@@ -211,8 +215,9 @@ def user_records(id):
     scores = db_sess.query(Score).filter_by(user_id=id).first()
     if scores:
         all_scores = scores.score.split(',')
-        snake_highest_score = max([i[:i.index("(") - 1] for i in all_scores])
-        all_scores = [[i[:i.index("(") - 1], i[i.index("("):i.index(")") - 1]] for i in all_scores]
+        snake_highest_score = max([i[:i.index("(")] for i in all_scores[:-1]])
+        all_scores = [[i[:i.index("(")], i[i.index("(") + 1:i.index(")")]] for i in all_scores[:-1]
+                      if i[:i.index("(")] != '0']
     else:
         all_scores = []
         snake_highest_score = 0
