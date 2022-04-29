@@ -324,7 +324,7 @@ def delete_news(id):
     delete_this = db_session.sa.delete(SiteNews).where(SiteNews.id == id)
     news_comments = db_sess.query(Comment).filter(Comment.type_id.like("%news%")).all()
     this_news_comments_ids = [i.id for i in news_comments
-                              if int(i.type_id[i.type_id.index(':') + 1:]) == id]
+                              if int(i.type_id[len(i.type_id) - i.type_id[::-1].index(':'):]) == id]
     delete_comments = db_session.sa.delete(Comment).where(Comment.id.in_(tuple(this_news_comments_ids)))
     db_sess.execute(delete_this)
     db_sess.execute(delete_comments)
