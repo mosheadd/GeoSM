@@ -220,8 +220,9 @@ def user_post(id, postid):
     db_sess = db_session.create_session()
     post = db_sess.query(UserPost).filter(UserPost.id == postid and UserPost.user_id == id).first()
     all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%user%")).all()
-    this_post_comments = [i for i in all_comments if int(i.type_id[i.type_id.index(':') + 1:]) == postid
-                          and int(i.user_id) == id]
+    this_post_comments = [i for i in all_comments
+                          if int(i.type_id[i.type_id.index(':') + 1: len(i.type_id) - int(i.type_id[::-1].index(':')) - 1])
+                          == id and int(i.type_id[len(i.type_id) - i.type_id[::-1].index(':')]) == postid]
     return render_template('userpost.html', title=load_user(id).name, user_id=id, post=post, comments=this_post_comments)
 
 
@@ -466,8 +467,8 @@ def group_post(id, postid):
     group = db_sess.query(Group).filter(Group.id == id).first()
     all_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
     this_post_comments = [i for i in all_comments
-                          if int(i.type_id[i.type_id.index(':'): len(i.type_id) - int(i.type_id[::-1].index(':'))])
-                          == postid and int(i.user_id) == id]
+                          if int(i.type_id[i.type_id.index(':') + 1: len(i.type_id) - int(i.type_id[::-1].index(':')) - 1])
+                          == id and int(i.type_id[len(i.type_id) - i.type_id[::-1].index(':')]) == postid]
     aids = [[ai.id, ai.admins_ids.split(',')] for ai in db_sess.query(Group).all()]
     groups_ids = [aid[0] for aid in aids if str(current_user.id) in aid[1]]
     is_admin = '0'

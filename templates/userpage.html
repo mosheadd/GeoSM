@@ -5,7 +5,7 @@
 {% if current_user.id == user_id %}
 <a class="button is-large topleft btntop" href="/user/{{current_user.id}}/create_post">Создать пост</a>
 {% endif %}
-<a class="button is-large records" href="/user/{{userid}}/records">Рекорды</a>
+<a class="button is-large records" href="/user/{{user_id}}/records">Рекорды</a>
 <div class="allnewsdiv">
 {% for item in posts%}
     <div class="onenewsdiv">
