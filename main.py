@@ -232,7 +232,8 @@ def delete_userpost(id, postid):
     delete_this = db_session.sa.delete(UserPost).where(UserPost.id == postid, UserPost.user_id == id)
     post_comments = db_sess.query(Comment).filter(Comment.type_id.like("%user%")).all()
     this_post_comments_ids = [i.id for i in post_comments
-                              if int(i.type_id[i.type_id.index(':') + 1:]) == postid]
+                              if int(i.type_id[i.type_id.index(':') + 1: len(i.type_id) - int(i.type_id[::-1].index(':')) - 1])
+                              == id and int(i.type_id[len(i.type_id) - i.type_id[::-1].index(':')]) == postid]
     delete_comments = db_session.sa.delete(Comment).where(Comment.id.in_(tuple(this_post_comments_ids)))
     db_sess.execute(delete_this)
     db_sess.execute(delete_comments)
@@ -480,15 +481,16 @@ def group_post(id, postid):
 @app.route('/group/<int:id>/delete_post/<int:postid>')
 def delete_post(id, postid):
     db_sess = db_session.create_session()
-    delete_this = db_session.sa.delete(UserPost).where(UserPost.id == postid, UserPost.user_id == id)
+    delete_this = db_session.sa.delete(Post).where(Post.id == postid, Post.group_id == id)
     post_comments = db_sess.query(Comment).filter(Comment.type_id.like("%post%")).all()
     this_post_comments_ids = [i.id for i in post_comments
-                              if int(i.type_id[i.type_id.index(':') + 1:]) == postid]
+                              if int(i.type_id[i.type_id.index(':') + 1: len(i.type_id) - int(i.type_id[::-1].index(':')) - 1])
+                              == id and int(i.type_id[len(i.type_id) - i.type_id[::-1].index(':')]) == postid]
     delete_comments = db_session.sa.delete(Comment).where(Comment.id.in_(tuple(this_post_comments_ids)))
     db_sess.execute(delete_this)
     db_sess.execute(delete_comments)
     db_sess.commit()
-    return redirect('/user/' + str(id))
+    return redirect('/groups/' + str(id))
 
 
 def main():
